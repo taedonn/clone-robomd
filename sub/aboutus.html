@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로보MD | iclave</title>
+    <link rel="icon" href="../img/logo_favicon.svg">
+    <!-- 제이쿼리 -->
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/jquery.actual.min.js"></script>
+    <!-- 스타일 가이드 -->
+    <link rel="stylesheet" href="../css/style_guide.css" type="text/css"/>
+    <script src="../js/style_guide.js"></script>
+    <!-- 스타일 -->
+    <link rel="stylesheet" href="../css/style.css" type="text/css">
+    <link rel="stylesheet" href="../css/responsive.css" type="text/css">
+    <script src="../js/header.js"></script>
+</head>
+<body>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            //수상내역
+            var width = $(window).width();
+            var awards_height = $(".aboutus_wrap3_1").outerHeight();
+            var awards = document.getElementsByClassName("aboutus_wrap3_1");
+            var awards_wrap_expand = awards_height * awards.length;
+            var awards_wrap_shrink = awards_height * 3;
+
+            //수상내역 새로고침
+            $("input[id='expand']").prop("checked",false);
+            $(".aboutus_wrap3").css({
+                "height":awards_wrap_shrink
+            });
+
+            //수상내역 버튼 클릭
+            $('.expand_btn').on('click',function(){
+                $('.aboutus_wrap3').animate({
+                    'height':awards_wrap_expand
+                },500);
+            });
+            $('.shrink_btn').on('click',function(){
+                $('.aboutus_wrap3').animate({
+                    'height':awards_wrap_shrink
+                },500);
+            });
+        });
+    </script>
+    <div id="wrap">
+        <header>
+            <div class="header_wrap">
+                <div class="header_left">
+                    <h1 class="logo">
+                        <a href="../home.html">
+                            <img src="../img/logo.svg" alt="로고">
+                        </a>
+                    </h1>
+                    <ul class="gnb">
+                        <li>
+                            <a href="./services.html">서비스</a>
+                        </li>
+                        <li>
+                            <a href="./aboutus.html">회사소개</a>
+                        </li>
+                        <li>
+                            <a href="./news.html">뉴스</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="header_right">
+                    <select class="lang">
+                        <option value="" disabled selected>Language</option>
+                        <option value="1">KR</option>
+                        <option value="2">EN</option>
+                    </select>
+                    <button class="login hover_mint_b">로그인</button>
+                    <a href="./contactus.html">
+                        <button class="contact_us hover_mint">문의하기</button>
+                    </a>
+                </div>
+                <div class="header_right_m">
+                    <input type="checkbox" id="menu_m">
+                    <label for="menu_m">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </label>
+                    <div class="menu_m">
+                        <ul class="gnb_m">
+                            <li>
+                                <a href="../sub/services.html">서비스</a>
+                            </li>
+                            <li>
+                                <a href="../sub/aboutus.html">회사소개</a>
+                            </li>
+                            <li>
+                                <a href="../sub/news.html">뉴스</a>
+                            </li>
+                            <li class="login_m">
+                                <a href="#">
+                                    <span>로그인</span>
+                                </a>
+                            </li>
+                            <li class="login_m contact_us_m">
+                                <a href="../sub/contactus.html">
+                                    <span>문의하기</span>
+                                </a>
+                            </li>
+                            <li>
+                                <select class="lang_m">
+                                    <option value="" disabled selected>Language</option>
+                                    <option value="1">KR</option>
+                                    <option value="2">EN</option>
+                                </select>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <section class="aboutus_m_banner">
+            <div class="aboutus_video_wrap">
+                <!-- 유튜브 iframe API 설정 -->
+                <script>
+                    var tag = document.createElement('script');
+                    tag.src = "https://www.youtube.com/iframe_api";
+                    var firstScriptTag = document.getElementsByTagName('script')[0];
+                    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+                    var player;
+                    function onYouTubeIframeAPIReady(){
+                        player = new YT.Player('yt_player',{
+                            width:'100%',
+                            videoId:'kdpGrJ8kOZ8',
+                            playerVars:{ 'autoplay':1,'playlist':'kdpGrJ8kOZ8','loop':1,'quality':'high','controls':0 },
+                            events:{
+                                'onReady':onPlayerReady,
+                                'onError':onPlayerError
+                            }
+                        });
+                    }
+
+                    function onPlayerReady(e){
+                        e.target.mute();
+                        e.target.playVideo();
+                    }
+
+                    function onPlayerError(e){
+                        console.log("error");
+                        location.reload();
+                    }
+                </script>
+                <div id="yt_player"></div>
+            </div>
+            <h2 class="main_title">
+                인공지능으로 이커머스 운영 자동화를 이루어갑니다.
+            </h2>
+            <h4 class="main_sub_title">
+                15년간 쇼핑몰을 운영하고, 5년간 패션 커머스 플랫폼 '옷딜'을 개발 운영하면서<br>
+                이커머스의 어려움을 통감하는 한편 얻게 된 인사이트로 문제를 해결해나가고 있습니다.
+            </h4>
+            <button class="download_btn hover_dark">회사 소개서 다운로드</button>
+        </section>
+        <section class="aboutus_content1">
+            <div class="aboutus_wrap1">
+                <h2 class="text_large">
+                    아이클레이브 성장 과정
+                </h2>
+                <h3 class="text_small">
+                    인공지능이 IT전문가들의 전유물이 아니라 이커머스 기업 누구나 쉽게 사용할 수 있는 기술이 되도록
+                    서비스를 만들고 있습니다. <br>글로벌 진출 대상 스타트업만을 발굴하는 투자 회사 스파크랩과 매일경제 산하
+                    투자 기관 등 9건의 투자를 받아 그 기술과 시장 잠재력을 인정받았습니다.
+                </h3>
+                <div class="aboutus_wrap1_1">
+                    <h4 class="text_large">2021</h4>
+                    <h5>
+                        <p class="text_small"><span>12.</span>진열 서비스 클로즈베타 런칭</p>
+                        <p class="text_small"><span>06.</span>배너 서비스 베타 런칭</p>
+                        <p class="text_small"><span>05.</span>(주)아이클레이브로 사명 변경</p>
+                        <p class="text_small"><span>04.</span>(주)유디아이디 AI바우처 지원사업 계약 체결</p>
+                    </h5>
+                </div>
+                <div class="aboutus_wrap1_1">
+                    <h4 class="text_large">2020</h4>
+                    <h5>
+                        <p class="aboutus_strong text_small" style="margin-top: 0px;"><span class="aboutus_dots"></span>AI 경진대회 수상</p>
+                        <p class="text_small"><span class="aboutus_dots"></span>정보통신진흥원 AI 공급기업 선정</p>
+                        <p class="text_small"><span class="aboutus_dots"></span>스파크랩 투자 유치</p>
+                        <button class="text_small">B2B SaaS로 전향</button>
+                    </h5>
+                </div>
+                <div class="aboutus_wrap1_1">
+                    <h4 class="text_large">2019</h4>
+                    <h5>
+                        <p class="text_small"><span class="aboutus_dots"></span>벤처기업 인증</p>
+                        <p class="text_small"><span class="aboutus_dots"></span>산업통상지원부 / 디자인진흥원 스타일테크 기업 선정</p>
+                        <p class="aboutus_strong text_small" style="margin-bottom: 0px;"><span class="aboutus_dots"></span>데이터진흥원 AI 공급기업 선정</p>
+                    </h5>
+                </div>
+                <div class="aboutus_wrap1_1">
+                    <h4 class="text_large">2018</h4>
+                    <h5>
+                        <p class="text_small"><span class="aboutus_dots"></span>데이터바우처 우수기업 선정</p>
+                        <p class="aboutus_strong text_small"><span>03.</span>남성복 큐레이션 서비스 출시</p>
+                        <p class="text_small"><span>01.</span>패션유통 머신러닝 특허 출원</p>
+                    </h5>
+                </div>
+                <div class="aboutus_wrap1_1">
+                    <h4 class="text_large">2017</h4>
+                    <h5>
+                        <p class="text_small"><span>11.</span>옷딜 v1.2 런칭</p>
+                        <p class="text_small"><span>06.</span>K-STARTUP COMPETITION 장려상</p>
+                    </h5>
+                </div>
+                <div class="aboutus_wrap1_1">
+                    <h4 class="text_large">2016</h4>
+                    <h5>
+                        <p class="aboutus_strong text_small" style="margin-top: 0px;"><span>11.</span>iOS/Android 옷딜 네이티브 앱 서비스 런칭</p>
+                        <p class="text_small"><span>10.</span>11th 디지털이노베이션 대상</p>
+                        <p class="text_small"><span>05.</span>미라클랩 시드 투자 유치</p>
+                        <button class="text_small">B2BC 플랫폼 서비스</button>
+                    </h5>
+                </div>
+                <div class="aboutus_wrap1_1" style="border-bottom: 2px solid #666;">
+                    <h4 class="text_large">2015</h4>
+                    <h5>
+                        <p class="text_small"><span>12.</span>ICT 유망기업 K-GLOBAL 300 선정</p>
+                        <p class="text_small"><span>10.</span>스타트업 챔피언십 리그 최우수상 수상</p>
+                        <p class="text_small"><span>06.</span>(주)옷딜 설립</p>
+                    </h5>
+                </div>
+            </div>
+        </section>
+        <section class="aboutus_content2">
+            <div class="aboutus_wrap2">
+                <h2 class="text_large">
+                    사업 분야
+                </h2>
+                <h3 class="text_small">
+                    5년 이상 누적된 패션 및 각 분야 빅데이터와 특허 기술을 바탕으로 한 머신러닝 추천, 스타일 큐레이션 등
+                    고도화된 인공지능 솔루션과 플랫폼 시스템 등을 보유하고 있습니다.
+                    이커머스 기업과 이용 고객을 모두 행복하게 만드는 서비스를 만드는 데 최선을 다하겠습니다.
+                </h3>
+                <div class="aboutus_wrap2_1" data-aos="fade-up" data-aos-duration="1000">
+                    <h4 class="text_medium">
+                        인공지능 기술 개발
+                    </h4>
+                    <p></p>
+                    <h5 class="text_small">
+                        서비스 핵심 성능 고도화를 위해 다양한 인공지능 기술 개발에 매진하고 있습니다.
+                        또한 SaaS 형태의 서비스 이용에 제한이 있는 고객사를 위하여 인공지능 솔루션을 제공합니다.
+                    </h5>
+                </div>
+                <div class="aboutus_wrap2_1" data-aos="fade-up" data-aos-duration="1000">
+                    <h4 class="text_medium">
+                        로보MD SaaS
+                    </h4>
+                    <p></p>
+                    <h5 class="text_small">
+                        회원가입 후 간단한 데이터 연동만으로 이커머스 운영 부담을 없애고 많은 업무를 자동화하실 수 있는 서비스입니다.
+                    </h5>
+                </div>
+                <div class="aboutus_wrap2_1" data-aos="fade-up" data-aos-duration="1000">
+                    <h4 class="text_medium">
+                        데이터 수집 및 가공
+                    </h4>
+                    <p></p>
+                    <h5 class="text_small">
+                        고객 요구사항에 따라 데이터를 수집하고, 태깅 및 라벨링 등 가공 분석하여 제공해드리거나 서비스화 해드리고 있습니다.
+                    </h5>
+                </div>
+                <div class="aboutus_wrap2_1" data-aos="fade-up" data-aos-duration="1000">
+                    <h4 class="text_medium">
+                        바우처 지원사업
+                        <a class="text_small" href="https://voucher.robomd.co.kr" target="_blank">더 알아보기 ></a>
+                    </h4>
+                    <p></p>
+                    <h5 class="text_small">
+                        데이터 및 인공지능 분야 정부 지원사업에 참여하여 더 많은 기업이 기술 혜택을 누릴 수 있도록 노력하고 있습니다.
+                    </h5>
+                </div>
+            </div>
+        </section>
+        <section class="aboutus_content3">
+            <h2 class="text_large">
+                특허 및 수상 내역
+            </h2>
+            <div class="aboutus_wrap3">
+                <div class="aboutus_wrap3_1">
+                    <h3 class="text_small"><span>특허</span><br>코디네이션 패턴 분석을 통한 의류상품 추천 시스템 및 그 방법</h3>
+                    <h4 class="text_small">2019</h4>
+                </div>
+                <div class="aboutus_wrap3_1">
+                    <h3 class="text_small"><span>특허</span><br>기획 판매를 위한 컨텐츠를 자동적으로 구축하는 시스템 및 그 방법</h3>
+                    <h4 class="text_small">2019</h4>
+                </div>
+                <div class="aboutus_wrap3_1">
+                    <h3 class="text_small"><span>수상</span><br>W-Startup Competition 장려상</h3>
+                    <h4 class="text_small">2017</h4>
+                </div>
+                <div class="aboutus_wrap3_1">
+                    <h3 class="text_small"><span>수상</span><br>K-Global 300 선정</h3>
+                    <h4 class="text_small">2017</h4>
+                </div>
+                <div class="aboutus_wrap3_1">
+                    <h3 class="text_small"><span>수상</span><br>K-Global 장려상</h3>
+                    <h4 class="text_small">2017</h4>
+                </div>
+                <div class="aboutus_wrap3_1">
+                    <h3 class="text_small"><span>수상</span><br>O'Creative Value Up Camp 우수상</h3>
+                    <h4 class="text_small">2017</h4>
+                </div>
+                <div class="aboutus_wrap3_1">
+                    <h3 class="text_small"><span>수상</span><br>11회 디지털 이노베이션 대상</h3>
+                    <h4 class="text_small">2017</h4>
+                </div>
+                <div class="aboutus_wrap3_1">
+                    <h3 class="text_small"><span>수상</span><br>K-Competition 우수상</h3>
+                    <h4 class="text_small">2017</h4>
+                </div>
+            </div>
+            <input type="checkbox" name="expand" id="expand" unchecked>
+            <label for="expand">
+                <span class="expand_btn see_more_btn">더보기</span>
+                <span class="shrink_btn see_more_btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="20" viewBox="0 0 16 10" style="margin-bottom: 2px;">
+                        <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"/>
+                    </svg>
+                </span>
+            </label>
+        </section>
+        <section class="index_content6 aboutus_content4">
+            <h2 class="text_medium">
+                저희 아이클레이브는 고객의 의견을 경청하며 함께 상생하는 기업이 되겠습니다.<br>
+                서비스 이용 문의 및 제휴 제안을 남겨 주시면 빠르게 연락드리겠습니다. 
+            </h2>
+            <a href="./contactus.html">
+                <button class="contactus_btn hover_dark">문의하기</button>
+            </a>
+        </section>
+        <div class="top_btn_wrap">
+            <div class="top_btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fff" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                </svg>
+            </div>
+        </div>
+        <footer>
+            <div class="footer_wrap">
+                <div class="footer_left">
+                    <h2 class="text_small">
+                        (주)아이클레이브
+                    </h2>
+                    <h3 class="text_small">
+                        대표자 최윤내 <span>|</span> <br class="footer_m">사업자등록번호 381-81-00136<br>
+                        서울특별시 강남구 테헤란로 4길 38-4 11층<br>
+                        1599-3518 <span>|</span> <br class="footer_m">manager@iclave.co.kr
+                    </h3>
+                </div>
+                <div class="footer_right">
+                    <h2 class="text_small">
+                        <a href="https://robomd.io/common/FormViewer/9001" target="_blank">이용 약관</a>
+                        <span></span>
+                        <a href="https://robomd.io/common/FormViewer/9002" target="_blank">개인정보 처리방침</a>
+                    </h2>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <!-- AOS -->
+    <script src="../js/aos.js"></script>
+    <link rel="stylesheet" href="../css/aos.css">
+    <script type="text/javascript">
+        AOS.init({
+            disable: function() {
+                var maxWidth = 1080;
+                return window.innerWidth < maxWidth;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+@charset "UTF-8";
+
+/* 폰트 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+
+/* 공통값 */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+#wrap{
+    width: 100%;
+    min-height: 100vh;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    overflow: scroll;
+    font-family: "Noto Sans KR";
+    font-weight: 400;
+    line-height: 1.5;
+    background-color: #E3EDF7;
+    color: #3a3a3a;
+}
+#wrap h2{
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 60px;
+    margin-bottom: 4px;
+}
+#wrap h2:first-of-type{
+    margin-top: 0;
+}
+#wrap h3{
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 20px;
+    color: #63666a;
+}
+#wrap h4{
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+#wrap h5{
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+.table_wrap{
+    width: 1600px;
+    max-height: 100%;
+    border-top: 1px solid #8C9DAD;
+    border-bottom: 1px solid #8C9DAD;
+    background-color: #fff;
+}
+.table{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border-bottom: 1px solid #E3EDF7;
+}
+.table h5{
+    width: 300px;
+    height: 100%;
+    background-color: #D6E3F0;
+    color: #3a3a3a;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    padding-bottom: 2px;
+}
+.table h6{
+    height: 100%;
+    color: #63666a;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    font-size: 14px;
+    font-weight: 400;
+    padding-bottom: 2px;
+    padding-left: 20px;
+}
+.CodeMirror{
+    min-width: 600px;
+}
+
+/* 스타일 */
+.prj_env_wrap .prj_env:last-of-type{
+    height: 136px;
+}
+.prj_env{
+    height: 48px;
+}
+
+.entity{
+    height: 48px;
+}
+.entity h6{
+    width: 186px;
+    border-right: 1px solid #E3EDF7;
+}
+
+.end_tag{
+    height: 48px;
+}
+.end_tag h6{
+    width: 145px;
+    border-right: 1px solid #E3EDF7;
+}
+
+.markup_wrap{
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px 40px;
+}
+#wrap .markup_wrap h4:last-of-type{
+    margin-bottom: 0;
+}
+
+.naming_wrap{
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px 40px;
+}
+#wrap .naming_wrap>div{
+    margin-bottom: 20px;
+}
+#wrap .naming_wrap>div:last-of-type{
+    margin-bottom: 0;
+}
+#wrap .naming_wrap>div h5{
+    color: #878B90;
+}
+#wrap .naming_wrap>div h5:last-of-type{
+    margin-bottom: 0;
+}
+.alert_msg{
+    font-size: 12px;
+    line-height: 16px;
+}

@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로보MD | iclave</title>
+    <link rel="icon" href="../img/logo_favicon.svg">
+    <!-- 제이쿼리 -->
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/jquery.actual.min.js"></script>
+    <!-- 스타일 가이드 -->
+    <link rel="stylesheet" href="../css/style_guide.css" type="text/css"/>
+    <script src="../js/style_guide.js"></script>
+    <!-- 스타일 -->
+    <link rel="stylesheet" href="../css/style.css" type="text/css">
+    <link rel="stylesheet" href="../css/responsive.css" type="text/css">
+    <script src="../js/header.js"></script>
+</head>
+<body>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            //get으로 받은 쿼리스트링에 따른 이벤트
+            function formChange(event){
+                var form_value = document.querySelector("input[name='news_type']:checked").value;
+                if(form_value == "0"){
+                    $('.news_content1').css({
+                        'display':'flex'
+                    }),
+                    $('.news_content2').css({
+                        'display':'none'
+                    });
+                }
+                else if(form_value == "1"){
+                    $('.news_content1').css({
+                        'display':'none'
+                    }),
+                    $('.news_content2').css({
+                        'display':'flex'
+                    });
+                }
+            }
+            formChange();
+
+            //보도자료/공지 이벤트
+            $("input[name='news_type']").on('change',function(){
+                formChange();
+            });
+
+            //더보기/줄이기 변수 선언
+            var window_width = $(window).width();
+            var news_height = $(".news_1").height();
+            var news_wrap_expand = news_height * 8;
+            var news_wrap_shrink = news_height * 3;
+
+            //새로고침 시 더보기/줄이기
+            if(window_width > 1400){
+                $("input[id='news_expand']").prop("checked",false);
+                $(".news_wrap").css({
+                    "height":news_wrap_shrink
+                });
+                $("input[id='news_expand'] + label").css({
+                    "display":"block"
+                });
+            }
+            else if(window_width <= 1400 && window_width > 1080){
+                $("input[id='news_expand']").prop("checked",false);
+                $(".news_wrap").css({
+                    "height":news_wrap_shrink
+                });
+                $("input[id='news_expand'] + label").css({
+                    "display":"block"
+                });
+            }
+            else{
+                $("input[id='news_expand']").prop("checked",true);
+                $("input[id='news_expand'] + label").css({
+                    "display":"none"
+                });
+                $(".news_wrap").css({
+                    "height":"auto"
+                })
+            }
+
+            //화면 바뀔 때마다 변수 업데이트
+            $(window).resize(function(){
+                window_width = $(window).width();
+                news_height = $(".news_1").height();
+                news_wrap_expand = news_height * 8;
+                news_wrap_shrink = news_height * 3;
+
+                if(window_width > 1400){
+                    $("input[id='news_expand']").prop("checked",false);
+                    $(".news_wrap").css({
+                        "height":news_wrap_shrink
+                    });
+                    $("input[id='news_expand'] + label").css({
+                        "display":"block"
+                    });
+                }
+                else if(window_width <= 1400 && window_width > 1080){
+                    $("input[id='news_expand']").prop("checked",false);
+                    $(".news_wrap").css({
+                        "height":news_wrap_shrink
+                    });
+                    $("input[id='news_expand'] + label").css({
+                        "display":"block"
+                    });
+                }
+                else{
+                    $("input[id='news_expand']").prop("checked",true);
+                    $("input[id='news_expand'] + label").css({
+                        "display":"none"
+                    });
+                    $(".news_wrap").css({
+                        "height":"auto"
+                    })
+                }
+            });
+
+            //더보기/줄이기 버튼 클릭 이벤트
+            $(".news_expand_btn").on('click',function(){
+                $('.news_wrap').animate({
+                    'height':news_wrap_expand //한줄당 538px - 마지막줄 -80px(마진값 제거)
+                },1000);
+            });
+            $(".news_shrink_btn").on("click",function(){
+                $('.news_wrap').animate({
+                    'height':news_wrap_shrink //한줄당 538px - 마지막줄 -80px(마진값 제거)
+                },1000);
+            });
+
+            //공지사항 번호열 계산식
+            let o_total = $(".news_wrap2_left h3").length;
+            let o = o_total;
+            $(".news_wrap2_left h3").each(function(){
+                $(this).text(o+".");
+                o = o - 1;
+            });
+
+            //공지사항 이전/다음 버튼 클릭 이벤트
+            var announcement_btn_length = $("input[name='announcement_btn']").length;
+
+            $(".btn_first").on('click',function(){ //처음으로 버튼
+                $(".news_wrap2_btn .news_wrap2_btn_num:first-of-type input").prop('checked',true);
+            });
+
+            $(".btn_last").on('click',function(){ //마지막으로 버튼
+                $(".news_wrap2_btn .news_wrap2_btn_num:last-of-type input").prop('checked',true);
+            });
+
+            $(".btn_prev").on('click',function(){ //이전으로 버튼
+                
+                $("input[name='announcement_btn']:checked").parent().prev().find('input').prop('checked',true);
+            });
+
+            $(".btn_next").on('click',function(){ //다음으로 버튼
+                $("input[name='announcement_btn']:checked").parent().next().find('input').prop('checked',true);
+            });
+
+            //공지사항 페이징
+            var count = document.getElementsByClassName("news_wrap2_1");
+            var total_count = count.length; //토탈 게시물 수 (현재 20개)
+            var page = document.getElementsByClassName("news_wrap2");
+            var total_page = Math.ceil(total_count / 10); //토탈 페이지 수 (게시물 16개씩)
+
+            for(i = 1; i <= total_page; i++){ //1부터 토탈 페이지 수만큼 증가
+                $(".news_wrap2_btn_num_wrap").append("<div class='news_wrap2_btn_num'><input type='radio' name='announcement_btn' id='announcement_btn"+i+"' checked><label for='announcement_btn"+i+"'><h4>"+i+"</h4></label></div>");
+                $("input[id='announcement_btn1']").prop('checked',true);
+            }
+        });
+    </script>
+    <div id="wrap">
+        <header>
+            <div class="header_wrap">
+                <div class="header_left">
+                    <h1 class="logo">
+                        <a href="../home.html">
+                            <img src="../img/logo.svg" alt="로고">
+                        </a>
+                    </h1>
+                    <ul class="gnb">
+                        <li>
+                            <a href="./services.html">서비스</a>
+                        </li>
+                        <li>
+                            <a href="./aboutus.html">회사소개</a>
+                        </li>
+                        <li>
+                            <a href="./news.html">뉴스</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="header_right">
+                    <select class="lang">
+                        <option value="" disabled selected>Language</option>
+                        <option value="1">KR</option>
+                        <option value="2">EN</option>
+                    </select>
+                    <button class="login">로그인</button>
+                    <a href="./contactus.html">
+                        <button class="contact_us">문의하기</button>
+                    </a>
+                </div>
+                <div class="header_right_m">
+                    <input type="checkbox" id="menu_m">
+                    <label for="menu_m">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </label>
+                    <div class="menu_m">
+                        <ul class="gnb_m">
+                            <li>
+                                <a href="../sub/services.html">서비스</a>
+                            </li>
+                            <li>
+                                <a href="../sub/aboutus.html">회사소개</a>
+                            </li>
+                            <li>
+                                <a href="../sub/news.html">뉴스</a>
+                            </li>
+                            <li class="login_m">
+                                <a href="#">
+                                    <span>로그인</span>
+                                </a>
+                            </li>
+                            <li class="login_m contact_us_m">
+                                <a href="../sub/contactus.html">
+                                    <span>문의하기</span>
+                                </a>
+                            </li>
+                            <li>
+                                <select class="lang_m">
+                                    <option value="" disabled selected>Language</option>
+                                    <option value="1">KR</option>
+                                    <option value="2">EN</option>
+                                </select>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <form action="#" method="get" id="news_btn_form">
+            <h2 class="main_title">
+                로보MD 새 소식을 전합니다.
+            </h2>
+            <div class="news_btn">
+                <input type="radio" name="news_type" value="0" id="news" checked>
+                <input type="radio" name="news_type" value="1" id="announcement">
+                <label for="news">
+                    <span class="news_btn1 radio_btn">보도자료</span>
+                </label>
+                <label for="announcement">
+                    <span class="news_btn1 radio_btn">공지</span>
+                </label>
+            </div>
+        </form>
+        <section class="news_content1">
+            <div class="news_wrap" style="margin-top: 0px;">
+                <div class="news_1">
+                    <a href="http://www.fashionbiz.co.kr/TN/?cate=2&recom=2&idx=187584" target="_blank">
+                        <div class="news_img_wrap">
+                            <img src="https://i.ibb.co/2kD4Gwq/news-1.png" alt="뉴스 이미지1">
+                        </div>
+                        <h6 class="text_small">뉴스</h6>
+                        <h3 class="text_medium">
+                            <span>
+                                아이클레이브, 블로그페이에 로보MD AI솔루션 제공
+                            </span>
+                        </h3>
+                        <h4 class="text_small">
+                            인공지능 스타트업 아이클레이브(대표 최윤내)는 15만 소상공인이 사용중인
+                            간편 쇼핑몰 솔루션인 블로그페이에 로보MD의 AI모델을 제공한다고 29일
+                            밝혔다. 로보MD 서비스의 핵심 앙상블 모델을 블로그페이의 요구사항에 맞춤 제작했다.
+                        </h4>
+                        <h5 class="text_small">
+                            2021.10.28
+                        </h5>
+                    </a>
+                </div>
+                <div class="news_1">
+                    <a href="http://www.digitaltoday.co.kr/news/articleView.html?idxno=419371" target="_blank">
+                        <div class="news_img_wrap">
+                            <img src="https://i.ibb.co/LRcyYGv/news-1-1.png" alt="뉴스 이미지1-1">
+                        </div>
+                        <h6 class="text_small">뉴스</h6>
+                        <h3 class="text_medium">
+                            <span>
+                                Saas 스타트업 '아이클레이브', 맞춤형 배너 서비스로 독일 진출 타진
+                            </span>
+                        </h3>
+                        <h4 class="text_small">
+                            개인맞춤형 배너 서비스 '로보MD'를 개발 운영하는 인공지능 서비스 스타트업 아이클레이브가 
+                            독일시장 진출을 지원하는 스타트업 엑셀러레이팅 프로그램 'GEA 익스플로어 저머니 프로그램
+                            (GEA Explorer Germany Program)'에 선정됐다고 6일 밝혔다.
+                        </h4>
+                        <h5 class="text_small">
+                            2021.10.06
+                        </h5>
+                    </a>
+                </div>
+                <div class="news_1">
+                    <a href="http://www.aitimes.com/news/articleView.html?idxno=140263" target="_blank">
+                        <div class="news_img_wrap">
+                            <img src="https://i.ibb.co/kHRTWWW/news-2.jpg" alt="뉴스 이미지2">    
+                        </div>
+                        <h6 class="text_small">뉴스</h6>
+                        <h3 class="text_medium">
+                            <span>
+                                쇼핑몰 배너 업무는 15년 전과 다름없는 '막노동', AI로 90% 줄인다.
+                            </span>
+                        </h3>
+                        <h4 class="text_small">
+                            국내 1세대 온라인 쇼핑몰을 운영한 기업 대표가 인공지능(AI) 스타트업으로 본격 커리어 전환에 나섰다.
+                            AI로 온라인 커머스 운영 작업을 자동화한 아이클레이브(iClave) 최윤내 대표 이야기다.
+                        </h4>
+                        <h5 class="text_small">
+                            2021.08.25
+                        </h5>
+                    </a>
+                </div>
+                <div class="news_1">
+                    <a href="https://www.etnews.com/20210713000136" target="_blank">
+                        <div class="news_img_wrap">
+                            <img src="https://i.ibb.co/jJh22nd/news-3.jpg" alt="뉴스 이미지3">
+                        </div>
+                        <h6 class="text_small">뉴스</h6>
+                        <h3 class="text_medium">
+                            <span>
+                                24시간 깨어있는 AI MD로 맞춤 배너 제공
+                            </span>
+                        </h3>
+                        <h4 class="text_small">
+                            아이클레이브 최윤내 대표는 "로보MD 배너 서비스의 목표는 온라인 사이트의 배너 관련 모든 업무를
+                            30초만에 완성되도록 자동화하는 것"이라며 "인공지능 로보MD가 사용자 데이터를 분석해서 최적의
+                            인기상품을 고르고, 배너를"
+                        </h4>
+                        <h5 class="text_small">
+                            2021.07.13
+                        </h5>
+                    </a>
+                </div>
+                <div class="news_1">
+                    <a href="https://platum.kr/archives/165670" target="_blank">
+                        <div class="news_img_wrap">
+                            <img src="https://i.ibb.co/kHBHVkn/news-3-0.jpg" alt="뉴스 이미지3-0">
+                        </div>
+                        <h6 class="text_small">뉴스</h6>
+                        <h3 class="text_medium">
+                            <span>
+                                AI 스타트업 '아이클레이브', 쇼핑몰 운영 돕는 '로보MD' 베타서비스 론칭
+                            </span>
+                        </h3>
+                        <h4 class="text_small">
+                            인공지능 서비스 스타트업 아이클레이브가 인공지능 개인맞춤형 배너 서비스 '로보MD(RoboMD)'의 베타 버전을 출시했다.
+                            로보MD는 이커머스에서 빼놓을 수 없는 웹배너를 디자인하고 교체하는 업무를 자동화했다.
+                        </h4>
+                        <h5 class="text_small">
+                            2021.06.28
+                        </h5>
+                    </a>
+                </div>
+                <div class="news_1">
+                    <a href="https://www.etnews.com/20210625000130" target="_blank">
+                        <div class="news_img_wrap">
+                            <img src="https://i.ibb.co/jw1BvRs/news-3-1.jpg" alt="뉴스 이미지3-1">
+                        </div>
+                        <h6 class="text_small">뉴스</h6>
+                        <h3 class="text_medium">
+                            <span>
+                                쇼핑몰MD를 위한 AI서비스 '아이클레이브'
+                            </span>
+                        </h3>
+                        <h4 class="text_small">
+                            4차 산업 생태계의 퍼스트무버를 꿈꾸는 스타트업 대결의 장 '스타인테크'가 문화산업 중점의 '컬처테크' 테마로
+                            최근 추진되는 가운데, 스타트업 대표와 현업 전문가의 매칭 '매운맛 토크'를 통해 해당 기업은 물론 대중과
+                            산업생태계 전반에 새로운 가치발굴의 기회를 전하고 있다.
+                        </h4>
+                        <h5 class="text_small">
+                            2021.06.25
+                        </h5>
+                    </a>
+                </div>
+                <div class="news_1">
+                    <a href="http://www.dt.co.kr/contents.html?article_no=2021060102109931650001&ref=naver" target="_blank">
+                        <div class="news_img_wrap">
+                            <img src="https://i.ibb.co/1m7qz6f/news-3-2.jpg" alt="뉴스 이미지3-2">
+                        </div>
+                        <h6 class="text_small">뉴스</h6>
+                        <h3 class="text_medium">
+                            <span>
+                                인공지능 스타트업 옷딜, '아이클레이브'로 사명 변경
+                            </span>
+                        </h3>
+                        <h4 class="text_small">
+                            인공지능 서비스 스타트업 옷딜(대표 최윤내)이 사명을 '아이클레이브'로 변경했다고 1일 밝혔다. 아이클레이브는 개인맞춤형
+                            큐레이션 쇼핑앱 '옷딜'을 운영하면서 축적한 업무 자동화 노하우를 바탕으로 MD(머천다이저) 업무자동화를 돕는 로보머천다이저,
+                            유행상품 분석하는 트렌드 수집 시스템 등을 내놓았다.
+                        </h4>
+                        <h5 class="text_small">
+                            2021.06.01
+                        </h5>
+                    </a>
+                </div>
+                <div class="news_1">
+                    <a href="http://www.kukinews.com/newsView/kuk202001170217" target="_blank">
+                        <div class="news_img_wrap">
+                            <img src="https://i.ibb.co/Qfs8QPC/news-4.jpg" alt="뉴스 이미지4">
+                        </div>
+                        <h6 class="text_small">뉴스</h6>
+                        <h3 class="text_medium">
+                            <span>
+                                "소비자 대신 고민한다"...'최첨단'으로 변신 중인 패션업계
+                            </span>
+                        </h3>
+                        <h4 class="text_small">
+                            옷딜은 '로봇MD'는 일반적으로 막대한 시간이 소요되는 MD업무를 데이터만 연동하면
+                            1분 만에 자동화할 수 있는 혁신적인 서비스를 개발했다. 인공지능 로봇MD가 소비자취향에
+                            맞춰 기획, 상품조사, 분류, 추천, 진열하는 MD업무를 수행하면서 기존보다 업무효율이
+                            70%이상 향상하는 것으로 알려졌다.
+                        </h4>
+                        <h5 class="text_small">
+                            2020.01.18
+                        </h5>
+                    </a>
+                </div>
+                <div class="news_1">
+                    <a href="http://fi.co.kr/main/view.asp?idx=68110" target="_blank">
+                        <div class="news_img_wrap">
+                            <img src="https://i.ibb.co/THRbx3t/news-4-1.png" alt="뉴스 이미지4-1">
+                        </div>
+                        <h6 class="text_small">뉴스</h6>
+                        <h3 class="text_medium">
+                            <span>
+                                '패션X테크' 
+                                따라올 테면 따라와봐
+                            </span>
+                        </h3>
+                        <h4 class="text_small">
+                            레이틀리코리아(대표 추연진)의 입점형 쇼핑몰 통합관리솔루션 '셀러허브'는 온라인 셀러들이 ID 하나로
+                            34개 쇼핑몰에 복잡한 절차 없이 입점, 상품 판매, 주문, 고객 서비스, 정산까지 원스톱으로 관리하도록
+                            돕는 B2B2C 플랫폼이다.
+                        </h4>
+                        <h5 class="text_small">
+                            2020.01.01
+                        </h5>
+                    </a>
+                </div>
+                <div class="news_1">
+                    <a href="https://news.mt.co.kr/mtview.php?no=2019121010210519475" target="_blank">
+                        <div class="news_img_wrap">
+                            <img src="https://i.ibb.co/bWW0D8R/news-5.jpg" alt="뉴스 이미지5">
+                        </div>
+                        <h6 class="text_small">뉴스</h6>
+                        <h3 class="text_medium">
+                            <span>
+                                2019 스타일테크 데모데이에 참가한 옷딜
+                            </span>
+                        </h3>
+                        <h4 class="text_small">
+                            선별된 10개사는 레이틀리코리아, 로로젬, 슈퍼웍스컴퍼니, 스타일봇, 스트롱소다, 종달랩,
+                            키즈픽, 틸투원, 멋들어진, 옷딜 등이다. 스타일테크란 패션, 뷰티 등 라이프 스타일 분야에
+                            사물인터넷, 인공지능, VR 등 첨단 IT 기술을 융합한 신산업이다. 미국의 '스티치픽스',
+                            국내 '미미박스','지그재그' 등이 대표적인 기업이다.
+                        </h4>
+                        <h5 class="text_small">
+                            2019.12.10
+                        </h5>
+                    </a>
+                </div>
+                <div class="news_1">
+                    <a href="http://fi.co.kr/main/view.asp?idx=68110" target="_blank">
+                        <div class="news_img_wrap">
+                            <img src="https://i.ibb.co/XY7zMCP/news-6.jpg" alt="뉴스 이미지6">
+                        </div>
+                        <h6 class="text_small">뉴스</h6>
+                        <h3 class="text_medium">
+                            <span>
+                                '로봇 MD' 활용하면 업무효율성 70% 증대
+                            </span>
+                        </h3>
+                        <h4 class="text_small">
+                            옷딜(대표 최윤내)에서 개발한 로봇MD(로봇머천다이저)는 일반적으로 막대한 시간이 소요되는
+                            MD업무를 데이터만 연동하면 1분만에 자동화할 수 있는 혁신적인 서비스다. 인공지능 로봇 MD가
+                            소비자 취향에 맞춰 기획, 상품 조사, 분류, 추천, 진열하는 MD업무를 수행하면서 업무효율이
+                            70%이상 향상된다.
+                        </h4>
+                        <h5 class="text_small">
+                            2020.01.01
+                        </h5>
+                    </a>
+                </div>
+                <div class="news_1">
+                    <a href="#" style="cursor: default;">
+                        <div class="news_img_wrap">
+                            <img src="https://i.ibb.co/pxMLLkT/news-7.jpg" alt="뉴스 이미지7">
+                        </div>
+                        <h6 class="text_small">EXHIBITION</h6>
+                        <h3 class="text_medium">
+                            <span>
+                                주한 덴마크 대사관초청 Smart Textile & Lifestyle Camp
+                            </span>
+                        </h3>
+                        <h4 class="text_small">
+                            OTDEAL은 주한덴마크대사관 이노베이션 센터의 초청으로 2017년 6월 14일 골든 튤립 M 호텔에서
+                            열리는 Smart Textile Innovation Camp에 한국 스타트업으로 참가했다. 덴마크의 북유럽
+                            라이프스타일을 전문으로 하는 기업 및 기관들에게 국내 패션 IT기업의 우수성을 알리고 유럽진출을
+                            위한 기회를 얻게 되었다.
+                        </h4>
+                        <h5 class="text_small">
+                            2017.06.14
+                        </h5>
+                    </a>
+                </div>
+                <div class="news_1">
+                    <a href="#" style="cursor: default;">
+                        <div class="news_img_wrap">
+                            <img src="https://i.ibb.co/KxHxRMG/news-8.jpg" alt="뉴스 이미지8">
+                        </div>
+                        <h6 class="text_small">EXHIBITION</h6>
+                        <h3 class="text_medium">
+                            <span>
+                                옷딜 월드 IT쇼(World IT Show) 2016 초청참가
+                            </span>
+                        </h3>
+                        <h4 class="text_small">
+                            5월 17일부터 20일까지 서울 코엑스에서 열리는 국내 최대규모의 정보통신 기술(ICT)박람회
+                            '월드 IT쇼(World IT Show) 2016'에 참가하였습니다. OTDEAL은 이번 전시를 통해서
+                            국내 중소 중견 패션업체들의 신상품과 재고상품을 스타일 매칭기술로 노출시켜주는 어플리케이션을
+                            선보였다.
+                        </h4>
+                        <h5 class="text_small">
+                            2017.05.17
+                        </h5>
+                    </a>
+                </div>
+                <div class="news_1">
+                    <a href="https://www.mk.co.kr/news/business/view/2016/07/488625/" target="_blank">
+                        <div class="news_img_wrap">
+                            <img src="https://i.ibb.co/6ZyYWqM/news-9.jpg" alt="뉴스 이미지9">
+                        </div>
+                        <h6 class="text_small">뉴스</h6>
+                        <h3 class="text_medium">
+                            <span>
+                                온.오프라인 의류쇼핑몰과 소비자를 연결해 양쪽에게 이익을 주는 서비스
+                            </span>
+                        </h3>
+                        <h4 class="text_small">
+                            "모바일 쇼핑몰 유통업계가 가장 주목하는 시장이다. 이중 모바일 커머스 비중은 전체의 30%로
+                            추정된다. 불황이 깊어지면서 쇼핑 할인제품을 구매하려는 수요 역시 증가하기 때문이다.
+                            하지만 소비자가 일일이 쇼핑몰이나 앱을 찾아 상품을 구매하는 것이 어렵기 때문에 패션상품
+                            상당수는 재고가 된다."
+                        </h4>
+                        <h5 class="text_small">
+                            2016.07.07
+                        </h5>
+                    </a>
+                </div>
+                <div class="news_1">
+                    <a href="#" style="cursor: default;">
+                        <div class="news_img_wrap">
+                            <img src="https://i.ibb.co/k6gXTMK/news-10.jpg" alt="뉴스 이미지10">
+                        </div>
+                        <h6 class="text_small">EXHIBITION</h6>
+                        <h3 class="text_medium">
+                            <span>
+                                W-Startup Competition 2017
+                            </span>
+                        </h3>
+                        <h4 class="text_small">
+                            한국여성과학기술인지원센터(소장 한화진, 이하 WISET)가 서울창조경제혁신센터(센터장 박용호)와
+                            함께 개최한 여성과학기술인 창업경진대회 (2017 W-STARTUP COMPETITION)에 참가하였다.
+                        </h4>
+                        <h5 class="text_small">
+                            2017
+                        </h5>
+                    </a>
+                </div>
+                <div class="news_1">
+                    <a href="https://www.etnews.com/20160525000491" target="_blank">
+                        <div class="news_img_wrap">
+                            <img src="https://i.ibb.co/g7fJDKX/news-11.jpg" alt="뉴스 이미지11">
+                        </div>
+                        <h6 class="text_small">뉴스</h6>
+                        <h3 class="text_medium">
+                            <span>
+                                '신생 020 스타트업 얼라이언스 2차 포럼' 성공적 개최
+                            </span>
+                        </h3>
+                        <h4 class="text_small">
+                            피칭 5개사 중 라이트립, OTDEAL, 우아한웨딩은 각각 책갈피 삽입.변경1,2,3위를 차지하며
+                            우수 020로 선정되는 영예를 안았다. 대기업과 정부 유관부처도 포럼에 적극 참여했다. 그 중,
+                            KT, BC카드, 한국인터넷진흥원(KISA) 등은 스타트업과의 제휴 현황을 파악하여 활발하고 건전한
+                            020 생태계를 위한 지원을 계획했다.
+                        </h4>
+                        <h5 class="text_small">
+                            2016.05.25
+                        </h5>
+                    </a>
+                </div>
+                <div class="news_1">
+                    <a href="https://www.mk.co.kr/news/business/view/2016/07/488625/" target="_blank">
+                        <div class="news_img_wrap">
+                            <img src="https://i.ibb.co/FV82t1W/news-12.jpg" alt="뉴스 이미지12">
+                        </div>
+                        <h6 class="text_small">뉴스</h6>
+                        <h3 class="text_medium">
+                            <span>
+                                의류쇼핑 플랫폼 '옷딜' 2주된 신상 재고 파악 또는 옷가게를 운영하는 사람들의 최대 고민은 재고다.
+                            </span>
+                        </h3>
+                        <h4 class="text_small">
+                            "작년에 산 그 많은 옷은 다 어디로 갔을까." 옷장을 열 때마다 생각한다. 이리지리 들춰 보다 '지름신'에
+                            넘어가 쇼핑에 실패하고 만 자신의 과거를 후회하며 결국 늘 입던 옷을 집어 든다. 의류 쇼핑 오픈마켓 'OTDEAL'은
+                            이런 기분이 들지 않게 해주는 모바일 애플리케이션(앱)이다.
+                        </h4>
+                        <h5 class="text_small">
+                            2016.07.07
+                        </h5>
+                    </a>
+                </div>
+                <div class="news_1">
+                    <a href="https://www.hankookilbo.com/News/Read/201609230482456532" target="_blank">
+                        <div class="news_img_wrap">
+                            <img src="https://i.ibb.co/2kJQjps/news-13.jpg" alt="뉴스 이미지13">
+                        </div>
+                        <h6 class="text_small">뉴스</h6>
+                        <h3 class="text_medium">
+                            <span>
+                                [디지털이노베이션대상] 옷딜
+                            </span>
+                        </h3>
+                        <h4 class="text_small">
+                            OTDEAL은 여성의류 쇼핑몰 모음 서비스에 빅데이터 기반 개인맞춤형(큐레이션) 기능을 도입한 신개념
+                            쇼핑 앱 서비스이다. 이미 국내 누적회원 2만명을 돌파했고 구글 앱스토어 여성의류, 할인의류 등 다양한
+                            카테고리에서 1등을 차지하고 있다.
+                        </h4>
+                        <h5 class="text_small">
+                            2016.09.23
+                        </h5>
+                    </a>
+                </div>
+                <div class="news_1">
+                    <a href="#" style="cursor: default;">
+                        <div class="news_img_wrap">
+                            <img src="https://i.ibb.co/jb0kK8D/news-14.jpg" alt="뉴스 이미지14">
+                        </div>
+                        <h6 class="text_small">EXHIBITION</h6>
+                        <h3 class="text_medium">
+                            <span>
+                                2016 매경 스마트테크쇼
+                            </span>
+                        </h3>
+                        <h4 class="text_small">
+                            '2016 매경 스마트테크쇼'가 총 2만 9000명의 참관을 기록하며 많은 이들의 관심 속에 막을 내렸다.
+                            'Smart Tech for Human(인간을 위한 스마트기술)'을 주제로 열린 올해 행사는 LG전자, KT등
+                            대기업과 OTDEAL, 지니네트웍스, 이웨이파트너스 등 스타트업까지 총 150여개사가 참가했다.
+                        </h4>
+                        <h5 class="text_small">
+                            2016
+                        </h5>
+                    </a>
+                </div>
+                <div class="news_1">
+                    <a href="https://www.asiatime.co.kr/154282" target="_blank">
+                        <div class="news_img_wrap">
+                            <img src="https://i.ibb.co/5kMYpcd/news-15.jpg" alt="뉴스 이미지15">
+                        </div>
+                        <h6 class="text_small">뉴스</h6>
+                        <h3 class="text_medium">
+                            <span>
+                                착한가격으로 신데렐라 만들어주는 '옷딜'
+                            </span>
+                        </h3>
+                        <h4 class="text_small">
+                            올 상반기 센터에 입주한 OTDEAL은 나의 취향과 사이즈에 맞게 할인하는 옷을 살 수 있는
+                            국내 의류 정보기술(IT)기업이다. 옷을 거래한다는 의미로 내게 맞는 옷을 저렴하게 사자는 것. 쇼핑몰의
+                            재고를 빅데이터 분석을 통해 할인된 가격으로 판다.
+                        </h4>
+                        <h5 class="text_small">
+                            2017.08.27
+                        </h5>
+                    </a>
+                </div>
+                <div class="news_1">
+                    <a href="#" style="cursor: default;">
+                        <div class="news_img_wrap">
+                            <img src="https://i.ibb.co/xqCZ8YK/news-16.jpg" alt="뉴스 이미지16">
+                        </div>
+                        <h6 class="text_small">EXHIBITION</h6>
+                        <h3 class="text_medium">
+                            <span>
+                                Global China 중국ICT 수출박람회
+                            </span>
+                        </h3>
+                        <h4 class="text_small">
+                            개인맞춤형 의류플랫폼 'OTDEAL'은 중국 ICT 종합전시상담회인 'K-글로벌차이나(K-Global China)
+                            2016'에 참가했다. 박람회는 21일(수)부터 22일(목)까지 북경에 위치한 중국대반점(China World Hotel) 1층
+                            컨퍼런스홀에서 열렸다.
+                        </h4>
+                        <h5 class="text-small">
+                            2016
+                        </h5>
+                    </a>
+                </div>
+                <div class="news_1">
+                    <a href="https://www.mk.co.kr/news/business/view/2016/07/488625/" target="_blank">
+                        <div class="news_img_wrap">
+                            <img src="https://i.ibb.co/jW0pDqc/news-17.jpg" alt="뉴스 이미지17">
+                        </div>
+                        <h6 class="text_small">뉴스</h6>
+                        <h3 class="text_medium">
+                            <span>
+                                빅데이터기반 큐레이션 기술이 척척 옷을 골라준다.
+                            </span>
+                        </h3>
+                        <h4 class="text_small">
+                            "작년에 산 그 많은 옷은 다 어디로 갔을까." 옷장을 열 때마다 생각한다. 이리저리 들춰 보다 '지름신'에 넘어가
+                            쇼핑에 실패하고 만 자신의 과거를 후회하며 결국 늘 입던 옷을 집어 든다. 의류 쇼핑 오픈마켓 'OTDEAL'은 이런
+                            기분이 들지 않게 해주는 모바일 애플리케이션(앱)이다.
+                        </h4>
+                        <h5 class="text_small">
+                            2016.07.07
+                        </h5>
+                    </a>
+                </div>
+            </div>
+            <input type="checkbox" name="news_expand" id="news_expand">
+            <label for="news_expand">
+                <span class="news_expand_btn see_more_btn">더보기</span>
+                <span class="news_shrink_btn see_more_btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="20" viewBox="0 0 16 10" style="margin-bottom: 2px;">
+                        <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"/>
+                    </svg>
+                </span>
+            </label>
+        </section>
+        <section class="news_content2">
+            <div class="news_wrap2">
+                <div class="news_wrap2_1">
+                    <div class="news_wrap2_left">
+                        <h3 class="text_small"></h3>
+                        <h2 class="text_small">
+                            <a href="./notice_privacy.html">
+                                개인정보 처리방침 개정 안내
+                            </a>
+                        </h2>
+                    </div>
+                    <h4 class="text_small">2021.05.25</h4>
+                </div>
+                <div class="news_wrap2_1">
+                    <div class="news_wrap2_left">
+                        <h3 class="text_small"></h3>
+                        <h2 class="text_small">
+                            <a href="./notice_210525.html">
+                                사명 변경 안내
+                            </a>
+                    </div>
+                    <h4 class="text_small">2021.05.25</h4>
+                </div>
+                <div class="news_wrap2_1">
+                    <div class="news_wrap2_left">
+                        <h3 class="text_small"></h3>
+                        <h2 class="text_small">
+                            <a href="./notice_180627.html">
+                                중소기업청 선정 AI남성플랫폼 서비스 개발선정
+                            </a>
+                        </h2>
+                    </div>
+                    <h4 class="text_small">2018.06.27</h4>
+                </div>
+                <div class="news_wrap2_1">
+                    <div class="news_wrap2_left">
+                        <h3 class="text_small"></h3>
+                        <h2 class="text_small">
+                            <a href="./notice_180627_1.html">
+                                AI머신러닝 연구개발 업무협약
+                            </a>
+                        </h2>
+                    </div>
+                    <h4 class="text_small">2018.06.27</h4>
+                </div>
+            </div>
+            <form action="#" method="get" id="notice_btn_form">
+                <div class="news_wrap2_btn">
+                    <svg class="btn_first" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                        <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                    </svg>
+                    <svg class="btn_prev" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                    </svg>
+                    <!-- 번호 들어가는 영역 -->
+                    <div class="news_wrap2_btn_num_wrap">
+                    </div> 
+                    <svg class="btn_next" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                    </svg>
+                    <svg class="btn_last" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>
+                        <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"/>
+                    </svg>
+                </div>
+            </form>
+        </section>
+        <div class="top_btn_wrap">
+            <div class="top_btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fff" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                </svg>
+            </div>
+        </div>
+        <footer>
+            <div class="footer_wrap">
+                <div class="footer_left">
+                    <h2 class="text_small">
+                        (주)아이클레이브
+                    </h2>
+                    <h3 class="text_small">
+                        대표자 최윤내 <span>|</span> <br class="footer_m">사업자등록번호 381-81-00136<br>
+                        서울특별시 강남구 테헤란로 4길 38-4 11층<br>
+                        1599-3518 <span>|</span> <br class="footer_m">manager@iclave.co.kr
+                    </h3>
+                </div>
+                <div class="footer_right">
+                    <h2 class="text_small">
+                        <a href="https://robomd.io/common/FormViewer/9001" target="_blank">이용 약관</a>
+                        <span></span>
+                        <a href="https://robomd.io/common/FormViewer/9002" target="_blank">개인정보 처리방침</a>
+                    </h2>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <!-- AOS -->
+    <script src="../js/aos.js"></script>
+    <link rel="stylesheet" href="../css/aos.css">
+    <script>
+        AOS.init({
+            disable: function() {
+                var maxWidth = 1080;
+                return window.innerWidth < maxWidth;
+            }
+        });
+    </script>
+</body>
+</html>

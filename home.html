@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로보MD | iclave</title>
+    <link rel="icon" href="./img/logo_favicon.svg">
+    <link rel="stylesheet" href="./css/style.css" type="text/css">
+    <link rel="stylesheet" href="./css/responsive.css" type="text/css">
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/header.js"></script>
+</head>
+<body>
+    <div id="wrap">
+        <header>
+            <div class="header_wrap">
+                <div class="header_left">
+                    <h1 class="logo">
+                        <a href="./home.html">
+                            <img src="./img/logo.svg" alt="로고">
+                        </a>
+                    </h1>
+                    <ul class="gnb">
+                        <li>
+                            <a href="./sub/services.html">서비스</a>
+                        </li>
+                        <li>
+                            <a href="./sub/aboutus.html">회사소개</a>
+                        </li>
+                        <li>
+                            <a href="./sub/news.html">뉴스</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="header_right">
+                    <select class="lang">
+                        <option value="" disabled selected>Language</option>
+                        <option value="1">KR</option>
+                        <option value="2">EN</option>
+                    </select>
+                    <button class="login hover_mint_b">로그인</button>
+                    <a href="./sub/contactus.html">
+                        <button class="contact_us hover_mint">문의하기</button>
+                    </a>
+                </div>
+                <div class="header_right_m">
+                    <input type="checkbox" id="menu_m">
+                    <label for="menu_m">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </label>
+                    <div class="menu_m">
+                        <ul class="gnb_m">
+                            <li>
+                                <a href="./sub/services.html">서비스</a>
+                            </li>
+                            <li>
+                                <a href="./sub/aboutus.html">회사소개</a>
+                            </li>
+                            <li>
+                                <a href="./sub/news.html">뉴스</a>
+                            </li>
+                            <li class="login_m">
+                                <a href="#">
+                                    <span>로그인</span>
+                                </a>
+                            </li>
+                            <li class="login_m contact_us_m">
+                                <a href="./sub/contactus.html">
+                                    <span>문의하기</span>
+                                </a>
+                            </li>
+                            <li>
+                                <select class="lang_m">
+                                    <option value="" disabled selected>Language</option>
+                                    <option value="1">KR</option>
+                                    <option value="2">EN</option>
+                                </select>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <section class="m_banner">
+            <!-- 유튜브 iframe API 설정 -->
+            <script>
+                var tag = document.createElement('script');
+                tag.src = "https://www.youtube.com/iframe_api";
+                var firstScriptTag = document.getElementsByTagName('script')[0];
+                firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+                var player;
+                function onYouTubeIframeAPIReady(){
+                    player = new YT.Player('yt_player',{
+                        width:'100%',
+                        videoId:'xbOrYGt7BfE',
+                        playerVars:{ 'autoplay':1,'playlist':'xbOrYGt7BfE','loop':1,'quality':'high','controls':0 },
+                        events:{
+                            'onReady':onPlayerReady,
+                            'onError':onPlayerError
+                        }
+                    });
+                }
+
+                function onPlayerReady(e){
+                    e.target.mute();
+                    e.target.setPlaybackRate(0.5);
+                    e.target.playVideo();
+                }
+
+                function onPlayerError(e){
+                    console.log("error");
+                    location.reload();
+                }
+            </script>
+            <div id="yt_player"></div>
+            <div class="video_wrap">
+                <h2 class="main_title">
+                    성장할수록 힘들어지는</br> 이커머스 운영</br>
+                    <span class="typeeffect" id="typeStyle">자동으로</span> 할 수 있습니다.
+                </h2>
+                <script type="text/javascript">
+                    //타이핑 효과
+                    $(document).ready(function(){
+                        let text = document.getElementById('typeStyle');
+                        let typeWriter = new Typewriter(text, {loop:true});
+
+                        typeWriter
+                        .typeString('자동으로')
+                        .pauseFor(1500)
+                        .deleteAll(150)
+                        .typeString('손쉽게')
+                        .pauseFor(1500)
+                        .deleteAll(150)
+                        .typeString('성공적으로')
+                        .pauseFor(1500)
+                        .deleteAll(150)
+                        .start();
+                    });
+                </script>
+                <h3 class="main_sub_title">
+                    배너 등록, 상품 진열, 매출 및 트렌드 분석,<br>
+                    매일 반복되지만 놓칠 수 없는 업무를 로보MD에게 맡겨주세요.
+                </h3>
+                <div class="m_banner_btn">
+                    <form id="freeStart">
+                        <input type="email" placeholder="이메일을 입력해 주세요.">
+                        <button type="submit">무료 체험 시작하기</button>
+                    </form>
+                </div>
+                <div class="scroll_down_btn"></div>
+            </div>
+        </section>
+        <section class="index_content1">
+            <div class="content1_1">
+                <div class="content1_1a">
+                    <h2 class="text_large" data-aos="fade-up" data-aos-duration="700">
+                        메인 배너와 상품 진열,<br>
+                        성공한 쇼핑몰은 왜 자주 바꿀까요?
+                    </h2>
+                    <h4 class="text_small" data-aos="fade-up" data-aos-duration="700" data-aos-delay="200">
+                        항상 새로운 쇼핑몰로 유지해야 고객이 자주 방문하기 때문입니다. <br>
+                        그래야 매출을 높일 수 있습니다.
+                    </h4>
+                </div>
+            </div>
+            <div class="content1_img">
+                <img src="https://i.ibb.co/LQw9TCq/main-gif1.png" alt="컨텐츠1 이미지1">
+                <img src="https://i.ibb.co/FKb6J3r/main-gif2.png" alt="컨텐츠1 이미지2">
+                <img src="https://i.ibb.co/CPxR8gv/main-gif3.png" alt="컨텐츠1 이미지3">
+                <img src="https://i.ibb.co/LY1NGLZ/main-gif4.png" alt="컨텐츠1 이미지4">
+            </div>
+        </section>
+        <section class="index_content2">
+            <div class="content2_title">
+                <h4 class="text_medium">
+                    로보MD가 도와드리겠습니다.
+                </h4>
+                <h2 class="text_large">
+                    인공지능이 제공하는 혁신을 누려 보세요.
+                </h2>
+            </div>
+            <div class="content2_img" data-aos="fade-up" data-aos-duration="700" data-aos-offset="100">
+                <!-- <img src="./img/main_bn_img.png" alt="컨텐츠2 이미지"> -->
+                <h2>Brand</h2>
+                <div class="content2_dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="content2_rolling1">
+                    <img src="https://i.ibb.co/tpb3zKq/main-bn1.png" alt="컨텐츠2 롤링 이미지1">
+                    <img src="https://i.ibb.co/BNr7g2v/main-bn2.png" alt="컨텐츠2 롤링 이미지2">
+                    <img src="https://i.ibb.co/tPJ4VS3/main-bn3.png" alt="컨텐츠2 롤링 이미지3">
+                    <img src="https://i.ibb.co/H4tFvgN/main-bn4.png" alt="컨텐츠2 롤링 이미지4">
+                    <img src="https://i.ibb.co/LkcTTmG/main-bn5.png" alt="컨텐츠2 롤링 이미지5">
+                    <img src="https://i.ibb.co/WWdHWhZ/main-bn6.png" alt="컨텐츠2 롤링 이미지6">
+                </div>
+                <h2>
+                    Best
+                </h2>
+                <div class="content2_rolling2">
+                    <img src="https://i.ibb.co/JzS60Q9/main-jy1.png" alt="컨텐츠2 롤링 이미지1-1">
+                    <img src="https://i.ibb.co/PCxZ254/main-jy2.png" alt="컨텐츠2 롤링 이미지1-2">
+                    <img src="https://i.ibb.co/qmjLNqt/main-jy3.png" alt="컨텐츠2 롤링 이미지1-3">
+                    <img src="https://i.ibb.co/zbK1VdJ/main-jy4.png" alt="컨텐츠2 롤링 이미지1-4">
+                    <img src="https://i.ibb.co/BNm6248/main-jy5.png" alt="컨텐츠2 롤링 이미지1-5">
+                    <img src="https://i.ibb.co/FV3kfqp/main-jy6.png" alt="컨텐츠2 롤링 이미지1-6">
+                </div>
+            </div>
+            <div class="content2_txt">
+                <div class="txt_1">
+                    <h2 class="text_medium">
+                        40시간 업무를 단 1분 만에
+                    </h2>
+                    <h4 class="text_small">
+                        여럿이 함께 오랜 시간 작업해야 볼 수 있던 결과물을
+                        클릭 한 번으로 확인할 수 있습니다.
+                    </h4>
+                </div>
+                <div class="txt_1">
+                    <h2 class="text_medium">
+                        365일 언제나 새로운 쇼핑몰
+                    </h2>
+                    <h4 class="text_small">
+                        주말에도 휴일에도 로보MD는 정해 놓은 일정에 따라
+                        자동으로 쇼핑몰을 업데이트 합니다.
+                    </h4>
+                </div>
+                <div class="txt_1">
+                    <h2 class="text_medium">
+                        쓸수록 똑똑해지는
+                    </h2>
+                    <h4 class="text_small">
+                        이용 데이터가 쌓여갈수록 내 쇼핑몰에
+                        더욱 잘 맞도록 진화해갑니다.
+                    </h4>
+                </div>
+            </div>
+            <a href="./sub/services.html">
+                <button class="mint_btn hover_mint">서비스 보러가기</button>
+            </a>
+        </section>
+        <section class="index_content3">
+            <div class="content3_wrap">
+                <div class="content3_bottom_txt">
+                    <h4 class="text_medium">
+                        로보MD는 쇼핑몰 운영 업무를 대신해 드릴 뿐 아니라
+                    </h4>
+                    <h2 class="text_large">
+                        성장도 이끌어드립니다.
+                    </h2>
+                </div>
+                <div class="content3_bottom_stats">
+                    <div class="stats_1">
+                        <h2 data-number="134" class="counts main_title">0</h2><span class="main_title">%</span>
+                        <h4 class="text_medium">평균 상품조회 증가</h4>
+                    </div>
+                    <div class="stats_2">
+                        <h2 data-number="147" class="counts main_title">0</h2><span class="main_title">%</span>
+                        <h4 class="text_medium">평균 체류시간 증가</h4>
+                    </div>
+                    <div class="stats_3" class="counts">
+                        <h2 data-number="16" class="counts main_title">0</h2><span class="main_title">%</span>
+                        <h4 class="text_medium">평균 객단가 증가</h4>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="index_content4">
+            <div class="index_content4_wrap">
+                <div class="content4_video_wrap" id="player" data-aos="fade-up" data-aos-duration="700">
+                    <!-- <iframe width="1120" height="630" id="yt_player" src="https://www.youtube.com/embed/rFpu6ilkyms?autoplay=1&mute=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;" allowfullscreen></iframe> -->
+                    <script>
+                        $(document).ready(function(){
+                            //유튜브 자동재생
+                            $(window).on("scroll",function youtube_play(){
+                                var window_top = $(window).scrollTop();
+                                var window_height = $(window).height();
+                                var window_bottom = window_top + window_height;
+                                var video_player_top = $("#player").offset().top;
+                                var video_player_height = $("#player").height();
+                                var video_player_center = video_player_top + video_player_height/2;
+                                var video_player_bottom = video_player_top + video_player_height;
+                                var video_width = $(".content4_video_wrap").width();
+                                var video_height = video_width * 0.5625;
+
+                                if(window_bottom > video_player_center){
+                                    $("#player").append($("<iframe width='"+video_width+"' height='"+video_height+"' id='yt_player' src='https://www.youtube.com/embed/rFpu6ilkyms?autoplay=1&mute=1' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;'' allowfullscreen></iframe>"));
+                                    $(window).off('scroll',youtube_play);
+                                }
+                            });
+
+                            //유튜브 비율
+                            var videoWidth = $(".content4_video_wrap").width();
+                            var videoHeight = videoWidth * 0.5625; //유튜브 비율
+                            var video_wrap_height_landscape = videoWidth * 0.75; //아이패드 landscape 비율
+
+                            $(".content4_video_wrap>iframe").css({
+                                "height":videoHeight
+                            });
+
+                            $(window).resize(function(){
+                                videoWidth = $(".content4_video_wrap").width();
+                                videoHeight = videoWidth * 0.5625;
+                                video_wrap_height_landscape = videoWidth * 0.75;
+
+                                $(".content4_video_wrap>iframe").css({
+                                    "height":videoHeight
+                                });
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
+        </section>
+        <section class="index_content4_1">
+            <h2 class="text_large">
+                파트너사 및 고객사
+            </h2>
+            <h3 class="text_medium">
+                로보MD는 유수의 파트너사들과 협력하며 고객과 함께 성장하고 있습니다.
+            </h3>
+            <div class="rolling_wrapper_opacity">
+                <img src="./img/rolling_opacity_gradient.svg">
+                <div class="rolling_wrapper">
+                    <p><img src="./img/partner_aws.png" alt="aws"></p>
+                    <p><img src="./img/partner_microsoft.png" alt="microsoft"></p>
+                    <p><img src="./img/partner_frombeginning.png" alt="frombeginning"></p>
+                    <p><img src="./img/partner_tinyengine.png" alt="tinyengine"></p>
+                    <p><img src="./img/partner_things.jpeg" alt="things"></p>
+                    <p><img src="./img/partner_udid.png" alt="udid"></p>
+                    <p><img src="./img/partner_seoul.gif" alt="seoul innovation center"></p>
+                    <p><img src="./img/partner_kyengki.jpeg" alt="kyengki innovation center"></p>
+                    <p><img src="./img/partner_theinventionlab.png" alt="the invention lab"></p>
+                    <p><img src="./img/partner_kmu.png" alt="kookmin university"></p>
+                    <p><img src="./img/partner_zipdoc.png" alt="zipdoc"></p>
+                    <p><img src="./img/partner_mklab.png" alt="mklab"></p>
+                </div>
+            </div>
+        </section>
+        <section class="index_content5">
+            <h2 class="text_large">
+                로보MD의 새 소식을 전합니다.
+            </h2>
+            <div class="news_wrap"
+            data-aos="fade-up"
+            data-aos-duration="700"
+            >
+                <div class="news_1">
+                    <a href="http://www.fashionbiz.co.kr/TN/?cate=2&recom=2&idx=187584" target="_blank">
+                        <div class="news_img_wrap index_news_img_wrap">
+                            <img src="https://i.ibb.co/2kD4Gwq/news-1.png" alt="뉴스 이미지1">
+                        </div>
+                        <h3 class="text_medium">
+                            <span>
+                                아이클레이브, 블로그페이에 로보MD AI솔루션 제공
+                            </span>
+                        </h3>
+                        <h4 class="text_small">
+                            인공지능 스타트업 아이클레이브(대표 최윤내)는 15만 소상공인이 사용중인
+                            간편 쇼핑몰 솔루션인 블로그페이에 로보MD의 AI모델을 제공한다고 29일
+                            밝혔다. 로보MD 서비스의 핵심 앙상블 모델을 블로그페이의 요구사항에 맞춤 제작했다.
+                        </h4>
+                    </a>
+                </div>
+                <div class="news_1">
+                    <a href="http://www.aitimes.com/news/articleView.html?idxno=140263" target="_blank">
+                        <div class="news_img_wrap index_news_img_wrap">
+                            <img src="https://i.ibb.co/kHRTWWW/news-2.jpg" alt="뉴스 이미지2">    
+                        </div>
+                        <h3 class="text_medium">
+                            <span>
+                                쇼핑몰 배너 업무는 15년 전과 다름없는 '막노동', AI로 90% 줄인다.
+                            </span>
+                        </h3>
+                        <h4 class="text_small">
+                            국내 1세대 온라인 쇼핑몰을 운영한 기업 대표가 인공지능(AI) 스타트업으로 본격 커리어 전환에 나섰다.
+                            AI로 온라인 커머스 운영 작업을 자동화한 아이클레이브(iClave) 최윤내 대표 이야기다.
+                        </h4>
+                    </a>
+                </div>
+                <div class="news_1">
+                    <a href="https://www.etnews.com/20210713000136" target="_blank">
+                        <div class="news_img_wrap index_news_img_wrap">
+                            <img src="https://i.ibb.co/jJh22nd/news-3.jpg" alt="뉴스 이미지3">
+                        </div>
+                        <h3 class="text_medium">
+                            <span>
+                                24시간 깨어있는 AI MD로 맞춤 배너 제공
+                            </span>
+                        </h3>
+                        <h4 class="text_small">
+                            아이클레이브 최윤내 대표는 "로보MD 배너 서비스의 목표는 온라인 사이트의 배너 관련 모든 업무를
+                            30초만에 완성되도록 자동화하는 것"이라며 "인공지능 로보MD가 사용자 데이터를 분석해서 최적의
+                            인기상품을 고르고, 배너를 디자인한 뒤 일정에 맞춰 24시간 자동으로 노출해 준다"고 전했다.
+                        </h4>
+                    </a>
+                </div>
+                <div class="news_1 news_2">
+                    <a href="http://www.digitaltoday.co.kr/news/articleView.html?idxno=419371" target="_blank">
+                        <div class="news_img_wrap">
+                            <img src="https://i.ibb.co/Qfs8QPC/news-4.jpg" alt="뉴스 이미지1-1">
+                        </div>
+                        <h3 class="text_medium">
+                            <span>
+                                Saas 스타트업 '아이클레이브', 맞춤형 배너 서비스로 독일 진출 타진
+                            </span>
+                        </h3>
+                        <h4 class="text_small">
+                            개인맞춤형 배너 서비스 '로보MD'를 개발 운영하는 인공지능 서비스 스타트업 아이클레이브가 
+                            독일시장 진출을 지원하는 스타트업 엑셀러레이팅 프로그램 'GEA 익스플로어 저머니 프로그램
+                            (GEA Explorer Germany Program)'에 선정됐다고 6일 밝혔다.
+                        </h4>
+                    </a>
+                </div>
+            </div>
+            <a href="./sub/news.html"><button class="see_more_btn">더보기</button></a>
+        </section>
+        <section class="index_content6">
+            <h2 class="text_large">
+                이커머스 운영에 변화가 필요하시다면 지금 문의주세요.
+            </h2>
+            <!-- <h4 class="text_medium">
+                궁금하신 점이 있으시거나 미팅을 원하시면 편히 연락주세요. 전문 컨설턴트가 빠르게 회신드리겠습니다.
+            </h4> -->
+            <a href="./sub/contactus.html">
+                <button class="contactus_btn hover_dark">문의하기</button>
+            </a>
+        </section>
+        <div class="top_btn_wrap">
+            <div class="top_btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fff" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                </svg>
+            </div>
+        </div>
+        <footer>
+            <div class="footer_wrap">
+                <div class="footer_left">
+                    <h2 class="text_small">
+                        (주)아이클레이브
+                    </h2>
+                    <h3 class="text_small">
+                        대표자 최윤내 <span>|</span> <br class="footer_m">사업자등록번호 381-81-00136<br>
+                        서울특별시 강남구 테헤란로 4길 38-4 11층<br>
+                        1599-3518 <span>|</span> <br class="footer_m">manager@iclave.co.kr
+                    </h3>
+                </div>
+                <div class="footer_right">
+                    <h2 class="text_small">
+                        <a href="https://robomd.io/common/FormViewer/9001" target="_blank">이용 약관</a>
+                        <span></span>
+                        <a href="https://robomd.io/common/FormViewer/9002" target="_blank">개인정보 처리방침</a>
+                    </h2>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <!-- 카운트업 효과 -->
+    <script src="./js/gsap.min.js"></script>
+    <script src="./js/ScrollTrigger.min.js"></script>
+    <script src="./js/countup.js"></script>
+    <!-- 타이핑 효과 -->
+    <script src="./js/core.min.js"></script>
+    <!-- Slick 슬라이더 연결 -->
+    <script type="text/javascript" src="./js/slick.min.js"></script>
+    <link rel="stylesheet" href="./css/slick.css">
+    <link rel="stylesheet" href="./css/slick-theme.css">
+    <!-- AOS -->
+    <script src="./js/aos.js"></script>
+    <link rel="stylesheet" href="./css/aos.css">
+    <script type="text/javascript">
+        //AOS
+        AOS.init({
+            disable: function() {
+                var maxWidth = 1080;
+                return window.innerWidth < maxWidth;
+            }
+        });
+
+        //롤링
+        window.onload = function(){
+            var rollingLeft = 0;
+            var first = 1;
+            var last;
+            var imgCount = 0;
+            var $img = $('.rolling_wrapper p');
+            var $first;
+            var $last;
+
+            $img.each(function(){ //5px 간격으로 배너 처음 위치시킴
+                $(this).css('left',rollingLeft);
+                rollingLeft += $(this).outerWidth() + 5;
+                $(this).attr('id','rolling' + (++imgCount)); //img에 id값 추가
+            });
+
+            if(imgCount > 0){
+                last = imgCount;
+                setInterval(function(){
+                    $img.each(function(){
+                        $(this).css('left',$(this).position().left - 1); //1px씩 왼쪽으로 이동
+                    });
+                    $first = $('#rolling' + first);
+                    $last = $('#rolling' + last);
+                    if($first.position().left < -200){ //제일 앞에 배너 제일 뒤로 이동
+                        $first.css('left',$last.position().left + $last.outerWidth() + 5);
+                        first++;
+                        last++;
+                        if(last > imgCount){last = 1;}
+                        if(first > imgCount){first = 1;}
+                    }
+                },20); //속도 조정
+            }
+        }
+
+        //slick 슬라이더
+        $(".content1_img").slick({
+            slidesToShow:1,
+            slidesToScroll: 1,
+            infinite:true,
+            autoplay: true,
+            autoplaySpeed: 1000,
+            fade:true
+        });
+
+        $(".content2_rolling1").slick({
+            slidesToShow:1,
+            slidesToScroll: 1,
+            infinite:true,
+            autoplay: true,
+            autoplaySpeed: 1000,
+            arrows:false,
+            asNavFor:".content2_rolling2"
+        });
+
+        $(".content2_rolling2").slick({
+            slidesToShow:1,
+            slidesToScroll: 1,
+            infinite:true,
+            autoplay: true,
+            autoplaySpeed: 1000,
+            arrows:false,
+            asNavFor:".content2_rolling1"
+        });
+    </script>
+</body>
+</html>

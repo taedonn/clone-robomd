@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로보MD | iclave</title>
+    <link rel="icon" href="../img/logo_favicon.svg">
+    <!-- 제이쿼리 -->
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/jquery.actual.min.js"></script>
+    <!-- 스타일 가이드 -->
+    <link rel="stylesheet" href="../css/style_guide.css" type="text/css"/>
+    <script src="../js/style_guide.js"></script>
+    <!-- 스타일 -->
+    <link rel="stylesheet" href="../css/style.css" type="text/css">
+    <link rel="stylesheet" href="../css/responsive.css" type="text/css">
+    <script src="../js/header.js"></script>
+</head>
+<script type="text/javascript">
+    $(document).ready(function(){
+        // gnb로 붙는 이벤트
+        $(window).scroll(function () {
+            windowTop = $(window).scrollTop();
+            formHeight = $("#services_form").outerHeight();
+            headerHeight = $("header").height();
+            headerTop = $("header").offset().top;
+
+            headerEncounter = -(windowTop - headerTop) + headerHeight;
+            windowEncounter = windowTop + headerEncounter;
+
+            services1Height = $(".services_m_banner").outerHeight();
+            services2Height = $(".services2").outerHeight();
+            services3Encounter = services1Height + services2Height - formHeight;
+
+            if (windowEncounter > services1Height) { //서비스 소개란 gnb에 있을 때
+                $(".services_form_top").addClass("services_form_fixed").css("top",headerEncounter);
+            }
+            else if (windowEncounter <= services1Height) { //서비스 소개란 gnb에 없을 때
+                $(".services_form_top").removeClass("services_form_fixed").css("top",0);
+            }
+
+            // "이용 방법" 영역 만날 시 이벤트
+            if (windowEncounter > services3Encounter) {
+                $(".services_form_top").css("display","none");
+                $(".services_form_bottom").css("display","flex");
+            }
+            else if (windowEncounter <= services3Encounter) {
+                $(".services_form_top").css("display","flex");
+                $(".services_form_bottom").css("display","none");
+            }
+        });
+
+        // 배너 버튼 클릭 이벤트
+        $("input[id='services_banner'], input[id='services_banner_1']").on('click', function () {
+            windowTop = $(window).scrollTop();
+            formHeight = $("#services_form").height();
+            bannerTop = $(".services2").offset().top;
+
+            formBtnClick();
+
+            if (windowTop > bannerTop) { // 배너 버튼이 위에 있을 때
+                $("body,html").on('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function () {
+                    $(this).stop(); // 스크롤 시 애니메이션 정지
+                });
+
+                $("body,html").animate({
+                    scrollTop: bannerTop - formHeight + 1
+                }, 800);
+            }
+            else if (windowTop <= bannerTop) { // 배너 버튼이 아래 있을 때
+                $("body,html").on('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function () {
+                    $(this).stop(); // 스크롤 시 애니메이션 정지
+                });
+
+                $("body,html").animate({
+                    scrollTop: bannerTop
+                }, 800);
+            }
+        });
+
+        // 진열 버튼 클릭 이벤트
+        $("input[id='services_display'], input[id='services_display_1']").on('click', function () {
+            windowTop = $(window).scrollTop();
+            formHeight = $("#services_form").height();
+            listTop = $(".services2").offset().top;
+
+            formBtnClick();
+
+            if (windowTop > listTop) { // 배너 버튼이 위에 있을 때
+                $("body,html").on('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function () {
+                    $(this).stop(); // 스크롤 시 애니메이션 정지
+                });
+
+                $("body,html").animate({
+                    scrollTop: listTop - formHeight + 1
+                }, 800);
+            }
+            else if (windowTop <= listTop) { // 배너 버튼이 아래 있을 때
+                $("body,html").on('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function () {
+                    $(this).stop(); // 스크롤 시 애니메이션 정지
+                });
+
+                $("body,html").animate({
+                    scrollTop: listTop
+                }, 800);
+            }
+        });
+
+        function formBtnClick(){
+            if($("input[id='services_display']").is(":checked")){ // 진열이 체크되어 있을 때
+                $(".services2_wrap").hide();
+                $(".services2_list_wrap").show();
+
+                $("input[id=services_display_1]").prop("checked",true); // 배너/진열 소개페이지 아래에 가상으로 만든 배너/진열 버튼도 체크 여부 통일
+            }
+            else{ // 배너가 체크되어 있을 때
+                $(".services2_wrap").show();
+                $(".services2_list_wrap").hide();
+
+                $("input[id=services_banner_1]").prop("checked",true); // 배너/진열 소개페이지 아래에 가상으로 만든 배너/진열 버튼도 체크 여부 통일
+            }
+
+            AOS.init({ // 배너/진열 선택 시 위치값도 바뀌어서 재실행
+                disable: function() {
+                    var maxWidth = 1080;
+                    return window.innerWidth < maxWidth;
+                }
+            });
+        }
+        formBtnClick();
+
+        //FAQ 버튼 클릭 이벤트
+        $("input[name='faq_btn']").on('click',function(){
+            var faq_original_height = $('.faq h4').height();
+            var faq_title_height = $(this).next('label').find('.faq').height();
+            var faq_text_height = $(this).next('label').find('h5').actual('outerHeight');
+            var faq_height = faq_title_height + faq_text_height;
+            console.log(faq_original_height);
+
+            if( $(this).is(":checked") ){
+                $(this).next().children('.faq').css({
+                    "height":faq_height
+                });
+            }
+            else{
+                $(this).next().children('.faq').css({
+                    "height":faq_original_height
+                });
+            }
+        });
+    });
+</script>
+<body>
+    <div id="wrap">
+        <header>
+            <div class="header_wrap">
+                <div class="header_left">
+                    <h1 class="logo">
+                        <a href="../home.html">
+                            <img src="../img/logo.svg" alt="로고">
+                        </a>
+                    </h1>
+                    <ul class="gnb">
+                        <li>
+                            <a href="#">서비스</a>
+                        </li>
+                        <li>
+                            <a href="./aboutus.html">회사소개</a>
+                        </li>
+                        <li>
+                            <a href="./news.html">뉴스</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="header_right">
+                    <select class="lang">
+                        <option value="" disabled selected>Language</option>
+                        <option value="1">KR</option>
+                        <option value="2">EN</option>
+                    </select>
+                    <button class="login hover_mint_b">로그인</button>
+                    <a href="./contactus.html">
+                        <button class="contact_us hover_mint">문의하기</button>
+                    </a>
+                </div>
+                <div class="header_right_m">
+                    <input type="checkbox" id="menu_m">
+                    <label for="menu_m">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </label>
+                    <div class="menu_m">
+                        <ul class="gnb_m">
+                            <li>
+                                <a href="../sub/services.html">서비스</a>
+                            </li>
+                            <li>
+                                <a href="../sub/aboutus.html">회사소개</a>
+                            </li>
+                            <li>
+                                <a href="../sub/news.html">뉴스</a>
+                            </li>
+                            <li class="login_m">
+                                <a href="#">
+                                    <span>로그인</span>
+                                </a>
+                            </li>
+                            <li class="login_m contact_us_m">
+                                <a href="../sub/contactus.html">
+                                    <span>문의하기</span>
+                                </a>
+                            </li>
+                            <li>
+                                <select class="lang_m">
+                                    <option value="" disabled selected>Language</option>
+                                    <option value="1">KR</option>
+                                    <option value="2">EN</option>
+                                </select>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <section class="services_m_banner">
+            <div class="services_m_banner_wrap">
+                <h2 class="main_title">
+                    MD를 도와주는 똑똑한 인공지능<br>
+                    로보MD는 최적의 이커머스 운영 솔루션입니다.
+                </h2>
+                <h3 class="main_sub_title">
+                    쇼핑몰의 상품 정보와 트렌드 정보, 이용자의 행태 정보를 종합 분석하여<br>
+                    최고의 성과를 이끌어낼 수 있도록 쇼핑몰 페이지의 각 영역을 자동 운영하고 정보를 제공합니다.
+                </h3>
+                <img src="https://i.ibb.co/4W5vpqy/services-banner.png" alt="서비스페이지 메인배너 이미지"/>
+                <button class="download_btn hover_dark">서비스 소개서 다운로드</button>
+            </div>
+        </section>
+        <section class="services2">
+            <form action="#" method="get" id="services_form" class="services_form_top">
+                <div class="services_form_wrap">
+                    <div class="services_btn">
+                        <input type="radio" name="services_type" id="services_banner" value="0" checked>
+                        <label for="services_banner">
+                            <span class="services_btn1">배너</span>
+                        </label>
+                        <input type="radio" name="services_type" id="services_display" value="1">
+                        <label for="services_display">
+                            <span class="services_btn1">진열</span>
+                        </label>
+                    </div>
+                </div>
+            </form>
+            <!-- 배너 시작하는 부분 -->
+            <div class="services2_wrap">
+                <div class="services1">
+                    <img class="services1_img" src="https://i.ibb.co/jZVzR77/services-banner-image.png" alt="배너 서비스 이미지"/>
+                    <img class="services1_bg" src="https://i.ibb.co/hcw6mTG/services-banner-bg.png" alt="배너 서비스 배경 이미지"/>
+                </div>
+                <div class="services2_title">
+                    <h2 class="text_large">
+                        쇼핑몰 배너 자동 운영 서비스
+                    </h2>
+                    <h3 class="text_small">
+                        쇼핑몰 이용 데이터를 분석하고 트렌드를 반영해 '판매가 일어날 가능성이 가장 높은 상품'을 선정해
+                        인공지능이 해당 상품의 배너를 디자인하고 일정에 맞춰 쇼핑몰에 노출시켜 드립니다. </br>
+                        쇼핑몰 메인 페이지의 상단 메인 배너나 하단 서브 배너, 카테고리 페이지의 상단 배너 등등
+                        모든 페이지 원하시는 위치에 적용할 수 있습니다.
+                    </h3>
+                </div>
+                <div class="services2_1">
+                    <div class="services2_txt">
+                        <h4 class="text_medium">
+                            가장 잘 팔릴 상품으로 <br>
+                            배너를 만듭니다. 
+                        </h4>
+                        <h5 class="text_small">
+                            상품의 조회, 구매, 리뷰 데이터를 분석하여 반응이 좋은 상품을 선별하고, <br>
+                            SNS와 포털의 최신 유행 트렌드를 반영해서 배너를 만들 상품을 고릅니다. 
+                        </h5>
+                    </div>
+                    <div class="services2_img">
+                        <img src="https://i.ibb.co/9qLgFR8/banner-img1.png" alt="배너 이미지 1" data-aos="fade-up" data-aos-duration="1000"/>
+                    </div>
+                </div>
+                <div class="services2_1">
+                    <div class="services2_txt">
+                        <h4 class="text_medium">
+                            인공지능이 디자인하고, <br>일정에 맞게 
+                            쇼핑몰 노출까지 관리합니다.
+                        </h4>
+                        <h5 class="text_small">
+                            상품에 가장 잘 어울리는 컬러와 문구로 스마트하게 디자인합니다. <br>
+                            설정한 일정에 맞춰 배너를 만들고 쇼핑몰에 바로 진열해드려요. 
+                        </h5>
+                    </div>
+                    <div class="services2_img">
+                        <img src="https://i.ibb.co/yX1PkSZ/banner-img2.png" alt="배너 이미지 2" data-aos="fade-up" data-aos-duration="1000"/>
+                    </div>
+                </div>
+                <div class="services2_1">
+                    <div class="services2_txt">
+                        <h4 class="text_medium">
+                            회원/비회원에게 다른 <br>배너를 
+                            보여줄 수 있습니다.
+                        </h4>
+                        <h5 class="text_small">
+                            고객 유형에 맞는 상품으로 각각 배너를 만들고 <br>
+                            고객에게 맞는 배너를 노출시켜줍니다.
+                        </h5>
+                    </div>
+                    <div class="services2_img">
+                        <img src="https://i.ibb.co/HPPRd3B/banner-img3.png" alt="배너 이미지 3" data-aos="fade-up" data-aos-duration="1000"/>
+                    </div>
+                </div>
+                <div class="services2_1">
+                    <div class="services2_txt">
+                        <h4 class="text_medium">
+                            해외몰도 걱정 마세요. <br>
+                            13개 언어로 배너를 만듭니다.
+                        </h4>
+                        <h5 class="text_small">
+                            영어, 프랑스어, 스페인어, 중국어(간체/번체), 일본어 등등 <br>
+                            해외에서 가장 널리 쓰이는 언어 13개로 배너 문구를 작성합니다.
+                        </h5>
+                    </div>
+                    <div class="services2_img">
+                        <img src="https://i.ibb.co/MPRkR74/banner-img4.png" alt="배너 이미지 4" data-aos="fade-up" data-aos-duration="1000"/>
+                    </div>
+                </div>
+            </div>
+            <!-- 진열 시작하는 부분 -->
+            <div class="services2_list_wrap">
+                <div class="services2_2">
+                    <div class="innerBox">
+                        <div class="services2_textBox1">
+                            <img class="services2_icon" src="../img/services_list_icon_1.png" alt="진열 아이콘 1"/>
+                            <h4>
+                                상품 진열과 통계, <b>한 번에 관리</b>하세요.
+                            </h4>
+                            <h5>
+                                상품 조회, 구매, 리뷰 등의 통계, 상품 진열 관리 모두 따로 사용하시느라 불편하셨죠? <br/>
+                                로보MD 진열 앱으로 한번에 관리해보세요.
+                            </h5>
+                        </div>
+                        <div class="services2_imgBox">
+                            <img class="services2_img1" src="https://i.ibb.co/sJr8t1s/services-list-img-1.png" alt="진열 이미지 1" data-aos="fade-up" data-aos-duration="1000"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="services2_2_bg">
+                    <div class="innerBox">
+                        <div class="services2_left">
+                            <div class="services2_imgBox">
+                                <img class="services2_img2" src="https://i.ibb.co/MM2BFmP/services-list-img-2.png" alt="상품 진열 이미지 2" data-aos="fade-up" data-aos-duration="1000"/>
+                            </div>
+                        </div>
+                        <div class="services2_right">
+                            <div class="services2_textBox2">
+                                <img class="services2_icon" src="../img/services_list_icon_2.png" alt="진열 아이콘 2"/>
+                                <h4>
+                                    주기적으로 예정일에 <br/>
+                                    <b>원하는 대로 진열</b>을 설정하세요.
+                                </h4>
+                                <h5>
+                                    로보MD 자동 추천 기능을 사용하시거나, <br/>
+                                    고객님 쇼핑몰에 맞는 특별한 추천 알고리즘도 예약일에 맞춰서 <br/>
+                                    직접 설정 하실 수 있어요.
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="services2_2">
+                    <div class="innerBox">
+                        <div class="services2_textBox3">
+                            <img class="services2_icon" src="../img/services_list_icon_3.png" alt="진열 아이콘 3"/>
+                            <h4>
+                                로보MD가 주기별로 <br/>
+                                <b>AI 고객 이용 기반 데이터 알고리즘</b>으로 <br/>
+                                <b>자동 상품 진열</b>을 해드립니다.
+                            </h4>
+                            <h5>
+                                특정 기간마다, 특정 상품마다, 일정마다, 상품마다 각각 다른 데이터 추천 알고리즘 기능으로 <br/>
+                                매일 바뀌는 고객 이용 데이터에 맞춰서, 매번 바뀌는 상품 등록 주기에 맞춰서 <br/>
+                                최적의 상품을 자동 진열하실 수 있어요.
+                            </h5>
+                        </div>
+                        <div class="services2_imgBox">
+                            <img class="services2_img3" src="https://i.ibb.co/Nt1RmcJ/services-list-img-3.png" alt="진열 이미지 3" data-aos="fade-up" data-aos-duration="1000"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="services2_2_bg ">
+                    <div class="innerBox">
+                        <div class="services2_left">
+                            <div class="services2_imgBox">
+                                <img class="services2_img4" src="https://i.ibb.co/rxhH5Bg/services-list-img-4.png" alt="진열 이미지 4" data-aos="fade-up" data-aos-duration="1000"/>
+                            </div>
+                        </div>
+                        <div class="services2_right">
+                            <div class="services2_textBox4">
+                                <img class="services2_icon" src="../img/services_list_icon_4.png" alt="진열 아이콘 4"/>
+                                <h4>
+                                    3가지 방법으로 <br/>
+                                    <b>상품 진열 순서를 편하게</b><br/>
+                                    바꿔보세요.
+                                </h4>
+                                <h5>
+                                    체크박스로, 직접 번호 지정으로, 드래그 앤 드롭으로, <br/>
+                                    개별 상품 또는 다중 상품을 한 번에 진열 위치 변경! <br/>
+                                    PC와 모바일에서도 손쉽게 상품 순서를 <br/>
+                                    변경할 수 있도록 지원해 드립니다.
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="services2_2">
+                    <div class="innerBox">
+                        <div class="services2_group">
+                            <div class="services2_textBox5">
+                                <img class="services2_icon" src="../img/services_list_icon_5.png" alt="진열 아이콘 5"/>
+                                <h4>
+                                    깔끔한 <b>디자인을 바로 적용</b>해 보세요.
+                                </h4>
+                                <h5>
+                                    어느 쇼핑몰에도 잘 어울리는 갈끔한 최신 트렌드로 디자인 했어요. <br/>
+                                    특별한 디자인 적용을 원하시면 별도 지원도 가능하니 고민하지 마시고 요청 주세요.
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="services2_imgBox services2_design">
+                            <img class="services2_img5" src="https://i.ibb.co/tpkdw3G/services-list-img-5.png" alt="진열 이미지 5" data-aos="fade-up" data-aos-duration="1000"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="services2_2_bg">
+                    <div class="innerBox">
+                        <div class="services2_left">
+                            <div class="services2_imgBox">
+                                <img class="services2_img6" src="https://i.ibb.co/5TDX3YF/services-list-img-6.png" alt="진열 이미지 6" data-aos="fade-up" data-aos-duration="1000"/>
+                            </div>
+                        </div>
+                        <div class="services2_right">
+                            <div class="services2_textBox6">
+                                <img class="services2_icon" src="../img/services_list_icon_6.png" alt="진열 아이콘 6"/>
+                                <h4>
+                                    <b>멀티샵</b>도 걱정 마세요. <br/>
+                                    모두 지원해드립니다.
+                                </h4>
+                                <h5>
+                                    로보MD는 멀티샵을 운영하시면 각 쇼핑몰별로 <br/>
+                                    자동 진열을 운영하실 수 있도록 지원해드리고 있어요.
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="services2_title2 services2_2_bg_blue">
+                    <h2>
+                        고객 이용 기반의 AI 자동 상품 진열로<br/>
+                        <b>업무 효율 <span>80% 증가 효과!</span></b>
+                    </h2>
+                </div>
+                <div class="services2_auto">
+                    <div class="services2_imgBox">
+                        <img class="services2_img7" src="https://i.ibb.co/PCP51Xj/services-list-img-7.png
+                    <div class="services2_textBox7">
+                        <p>
+                            압도적인 <b>자동화 능력!</b><br/>
+                            매달 1500만건 데이터 분석 중
+                        </p>
+                    </div>
+                </div>
+                <div class="services2_title3 services2_2_bg">
+                    <h2>
+                        대표 고객사가 체험하고 있습니다.
+                    </h2>
+                    <div class="services2_imgBox">
+                        <img class="services2_img8" src="https://i.ibb.co/WnPCjzx/services-list-img-8.png" alt="상품 진열 이미지 8"/>
+                    </div>
+                </div>
+                <div class="services2_title4 services2_2_bg_dark">
+                    <h2>
+                        AI 기술로 원하는<b> 분석 기간을 조율</b>하고, <br/>
+                        고객 이용 기반 데이터로<b> 매일 자동 상품 진열</b>하여 <br/>
+                        매출을 높이세요.
+                    </h2>
+                    <a href="./contactus.html">
+                        <button class="hover_mint">도입 상담 바로가기</button>
+                    </a>
+                </div>
+            </div>
+            <form action="#" method="get" id="services_form" class="services_form_bottom">
+                <div class="services_form_wrap">
+                    <div class="services_btn">
+                        <input type="radio" name="services_type" id="services_banner_1" value="0" checked>
+                        <label for="services_banner_1">
+                            <span class="services_btn1">배너</span>
+                        </label>
+                        <input type="radio" name="services_type" id="services_display_1" value="1">
+                        <label for="services_display_1">
+                            <span class="services_btn1">진열</span>
+                        </label>
+                    </div>
+                </div>
+            </form>
+        </section>
+        <section class="services3">
+            <div class="services3_wrap">
+                <h2 class="text_large">
+                    이용 방법
+                </h2>
+                <h3 class="text_medium">
+                    클릭 몇 번만으로 쉽게 사용하실 수 있습니다.
+                </h3>
+                <div class="services3_1">
+                    <div class="services3_2" data-aos="fade-up" data-aos-duration="1000">
+                        <h4 class="text_medium">
+                            간편하게 데이터 불러오기
+                        </h4>
+                        <h5 class="text_small">
+                            로보MD는 카페24, 메이크샵, 아임웹, 고도몰 등 대한민국 대표 호스팅사와 제휴하여, 
+                            쇼핑몰 데이터를 바로 불러올 수 있습니다.<br>
+                            *자체몰 및 기타 호스팅사 협의 가능
+                        </h5>
+                    </div>
+                    <div class="services3_2" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                        <h4 class="text_medium">
+                            100% 설치 지원
+                        </h4>
+                        <h5 class="text_small">
+                            개발자가 없으셔도, 코딩을 모르셔도 걱정하지 마세요. 로보MD 개발팀이 
+                            고객 님의 요청사항과 일정에 맞춰 스크립트 설치를 100% 지원해드립니다.
+                        </h5>
+                    </div>
+                    <div class="services3_2" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+                        <h4 class="text_medium">
+                            자유롭게 수정 가능
+                        </h4>
+                        <h5 class="text_small">
+                            로보MD가 보여드리는 결과물을 확인 하고 수정하고 싶으실 때에도 간편 하게 작업하실 수 있어요. 
+                            그 데이터도 놓치지 않고 연구하여 점점 더 나은 서비스를 만들어갑니다.
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="services4">
+            <h2 class="text_large">
+                자주 묻는 질문 (FAQ)
+            </h2>
+            <h3 class="text_medium">
+                로보MD 서비스에 대하여 고객님들께서 자주 물으시는 사항을 안내해 드립니다.
+            </h3>
+            <div class="faq_wrap">
+                <input type="checkbox" name="faq_btn" id="faq_btn1">
+                <label for="faq_btn1">
+                    <div class="faq">
+                        <h4 class="main_sub_title">
+                            <span>Q. 로보MD가 만드는 배너는 어떤 배너인가요? 어디에 쓸 수 있나요?</span> 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#666" class="chevron-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="chevron-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                            </svg>
+                        </h4>
+                        <h5>
+                            <span class="text_small">
+                                로보MD는 쇼핑몰에서 가장 인기 있는 상품을 선정하여 인공지능이 배너를 만들어드리는 서비스입니다.<br>
+                                쇼핑몰 메인 페이지 제일 위 메인 배너나 조금 아래 페이지 중간 영역이나 사이드 영역 등 원하시는 곳 어디에나 사용하실 수 있습니다.<br>
+                                이용을 원하시는 위치를 알려주시면 로보MD팀이 딱 맞게 설치해 드려요. 위치를 정하기 어려우시면 상담을 신청해 보세요.<br>
+                                이커머스 운영 전문 인력이 고객님의 쇼핑몰을 분석하여 최적의 위치를 제안해 드립니다.
+                            </span>
+                        </h5>
+                    </div>
+                </label>
+            </div>
+            <div class="faq_wrap">
+                <input type="checkbox" name="faq_btn" id="faq_btn2">
+                <label for="faq_btn2">
+                    <div class="faq">
+                        <h4 class="main_sub_title">
+                            <span>Q. 인공지능은 어디에 쓰이나요?</span> 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#666" class="chevron-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="chevron-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                            </svg>
+                        </h4>
+                        <h5>
+                            <span class="text_small">
+                                로보MD의 인공지능은 쇼핑몰 상품의 사진을 분석하여 어떤 상품인지 상품은 어떤 색상인지 파악합니다.<br>
+                                그리고 상품의 주요 색상과 어울리는 컬러로 배너를 디자인하고, 배너의 문구를 작성합니다.<br>
+                                배너의 문구가 모델의 얼굴을 가리지 않도록 위치를 조정하는 데에도 쓰이고 있어요.
+                            </span>
+                        </h5>
+                    </div>
+                </label>
+            </div>
+            <div class="faq_wrap">
+                <input type="checkbox" name="faq_btn" id="faq_btn3">
+                <label for="faq_btn3">
+                    <div class="faq">
+                        <h4 class="main_sub_title">
+                            <span>Q. 무료체험은 어떻게 신청하나요?</span> 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#666" class="chevron-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="chevron-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                            </svg>
+                        </h4>
+                        <h5>
+                            <span class="text_small">
+                                로보MD 사이트에 회원가입을 하신 날부터 별도로 신청 없이 30일 동안 무료체험을 하실 수 있습니다.<br>
+                                다음 날부터 배너가 하루에 1개씩 자동으로 만들어지니 쇼핑몰에 노출시키고 싶으시면 로보MD팀에 문의주세요!
+                            </span>
+                        </h5>
+                    </div>
+                </label>
+            </div>
+            <div class="faq_wrap">
+                <input type="checkbox" name="faq_btn" id="faq_btn4">
+                <label for="faq_btn4">
+                    <div class="faq">
+                        <h4 class="main_sub_title">
+                            <span>Q. 무료체험 기간이 끝나면 자동으로 결제가 되나요?</span> 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#666" class="chevron-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="chevron-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                            </svg>
+                        </h4>
+                        <h5>
+                            <span class="text_small">
+                                아니에요. 무료체험 기간이 끝나도 자동으로 결제가 되지는 않으니 안심하고 체험해 보세요.<br>
+                                결제수단을 등록하셨어도 첫 결제는 고객님께서 직접 진행해 주셔야 해요.
+                            </span>
+                        </h5>
+                    </div>
+                </label>
+            </div>
+            <div class="faq_wrap">
+                <input type="checkbox" name="faq_btn" id="faq_btn5">
+                <label for="faq_btn5">
+                    <div class="faq">
+                        <h4 class="main_sub_title">
+                            <span>Q. 이용 요금은 얼마인가요?</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#666" class="chevron-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="chevron-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                            </svg>
+                        </h4>
+                        <h5>
+                            <span class="text_small">
+                                로보MD는 고객님 쇼핑몰의 이용 규모에 맞는 요금제를 선택하실 수 있도록 준비했습니다.<br>
+                                무료체험 기간 동안의 데이터를 분석하여 최상의 효과를 얻으실 수 있는 요금제를  로보MD팀이 안내해 드릴게요.
+                            </span>
+                        </h5>
+                    </div>
+                </label>
+            </div>
+            <h6 class="text_medium">
+                궁금하신 내용이 FAQ에 없다면 편히 문의 주세요.
+            </h6>
+            <a href="./contactus.html">
+                <button class="mint_btn hover_mint">문의하기</button>
+            </a>
+        </section>
+        <div class="top_btn_wrap">
+            <div class="top_btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fff" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                </svg>
+            </div>
+        </div>
+        <footer>
+            <div class="footer_wrap">
+                <div class="footer_left">
+                    <h2 class="text_small">
+                        (주)아이클레이브
+                    </h2>
+                    <h3 class="text_small">
+                        대표자 최윤내 <span>|</span> <br class="footer_m">사업자등록번호 381-81-00136<br>
+                        서울특별시 강남구 테헤란로 4길 38-4 11층<br>
+                        1599-3518 <span>|</span> <br class="footer_m">manager@iclave.co.kr
+                    </h3>
+                </div>
+                <div class="footer_right">
+                    <h2 class="text_small">
+                        <a href="https://robomd.io/common/FormViewer/9001" target="_blank">이용 약관</a>
+                        <span></span>
+                        <a href="https://robomd.io/common/FormViewer/9002" target="_blank">개인정보 처리방침</a>
+                    </h2>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <!-- AOS -->
+    <script src="../js/aos.js"></script>
+    <link rel="stylesheet" href="../css/aos.css">
+    <script>
+        AOS.init({
+            disable: function() {
+                var maxWidth = 1080;
+                return window.innerWidth < maxWidth;
+            }
+        });
+    </script>
+</body>
+</html>
